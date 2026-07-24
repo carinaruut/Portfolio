@@ -1,21 +1,17 @@
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import portfolioCards from './portfolioCards.json';
+import portfolioItems from './portfolioItems.json';
+import profile from './profile.json';
 import timeline from './timeline.json';
 import type {
   ContentSection,
   Education,
+  Project,
   ProjectCategory,
   SiteContent,
   WorkExperience,
 } from '../types';
-
-const portfolioCategory: ProjectCategory = {
-  id: 'category-portfolio',
-  title: 'Portfolio',
-  slug: 'portfolio',
-  description: 'Web design, 3D work, and digital illustration collections.',
-};
 
 const getPortfolioImage = (path: string, alt: string) => {
   const url = path.replace(/^\./, '');
@@ -101,43 +97,42 @@ const workExperiences: WorkExperience[] = timeline
   })
   .reverse();
 
+const categories: ProjectCategory[] = portfolioCards.map((card) => ({
+  id: `category-${card.slug}`,
+  title: card.cardTitle,
+  slug: card.slug,
+  description: card.description,
+  image: getPortfolioImage(card.img, card.imgAlt),
+}));
+
+const projects: Project[] = portfolioItems.flatMap((item) => {
+  const category = categories.find(
+    (category) => category.slug === item.categorySlug,
+  );
+  if (!category) return [];
+
+  return [
+    {
+      id: `project-${item.id}`,
+      title: item.title,
+      slug: item.slug,
+      publishedAt: item.publishedAt,
+      shortDescription: item.description,
+      body: item.body,
+      mainImage: getPortfolioImage(item.img, item.imgAlt),
+      gallery: [],
+      category,
+      technologies: item.tags,
+      featured: item.featured,
+      relatedProjectIds: [],
+    },
+  ];
+});
+
 export const mockContent: SiteContent = {
-  categories: [portfolioCategory],
-  projects: portfolioCards.map((card) => ({
-    id: `project-${card.slug}`,
-    title: card.cardTitle,
-    slug: card.slug,
-    shortDescription: card.description,
-    body: [card.description],
-    mainImage: getPortfolioImage(card.img, card.imgAlt),
-    gallery: [],
-    category: portfolioCategory,
-    technologies: [],
-    featured: true,
-    relatedProjectIds: [],
-  })),
+  categories,
+  projects,
   workExperiences,
   education,
-  profile: {
-    name: 'Your Name',
-    professionalTitle: 'Software Developer & Digital Creator',
-    shortIntroduction:
-      'I build maintainable software and explore web design, 3D objects, and digital illustration.',
-    biography: [
-      'I am a software developer with a practical full-stack background and a focus on maintainable systems, structured data, and clean code.',
-      'Alongside software engineering, I enjoy creating website concepts, custom 3D objects, and digital illustrations.',
-    ],
-    email: 'hello@example.com',
-    location: 'Estonia',
-    skills: [
-      '.NET',
-      'C#',
-      'TypeScript',
-      'Vue',
-      'SQL',
-      'Web design',
-      '3D design',
-    ],
-    socialLinks: [],
-  },
+  profile,
 };

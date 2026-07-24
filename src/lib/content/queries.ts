@@ -5,9 +5,19 @@ export const siteContentQuery = `{
     "slug": slug.current,
     publishedAt,
     shortDescription,
-    "body": body[].children[].text,
-    mainImage { alt, "assetRef": asset._ref },
-    "gallery": coalesce(gallery[] { alt, "assetRef": asset._ref }, []),
+    "body": coalesce(body[].children[].text, []),
+    mainImage {
+      alt,
+      "assetRef": asset._ref,
+      "width": asset->metadata.dimensions.width,
+      "height": asset->metadata.dimensions.height
+    },
+    "gallery": coalesce(gallery[] {
+      alt,
+      "assetRef": asset._ref,
+      "width": asset->metadata.dimensions.width,
+      "height": asset->metadata.dimensions.height
+    }, []),
     category-> {
       "id": _id,
       title,

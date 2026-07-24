@@ -49,6 +49,8 @@ async function loadContent(): Promise<SiteContent> {
 }
 
 export function getSiteContent(): Promise<SiteContent> {
+  if (import.meta.env.DEV) return loadContent();
+
   contentPromise ??= loadContent();
   return contentPromise;
 }

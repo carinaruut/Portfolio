@@ -2,6 +2,8 @@ export interface ImageAsset {
   url?: string;
   assetRef?: string;
   alt: string;
+  width?: number;
+  height?: number;
 }
 
 export interface ProjectCategory {
@@ -17,7 +19,7 @@ export interface ProjectSummary {
   title: string;
   slug: string;
   publishedAt?: string;
-  shortDescription: string;
+  shortDescription?: string;
   mainImage?: ImageAsset;
   category: ProjectCategory;
   technologies: string[];

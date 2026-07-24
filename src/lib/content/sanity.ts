@@ -13,7 +13,7 @@ export async function getSanityContent(
 ): Promise<SiteContent> {
   const client = createClient({
     ...config,
-    useCdn: true,
+    useCdn: false,
     perspective: 'published',
   });
 

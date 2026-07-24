@@ -15,6 +15,7 @@ export function getImageUrl(
   return createImageUrlBuilder({ projectId, dataset })
     .image(image.assetRef)
     .width(width)
+    .fit('max')
     .auto('format')
     .url();
 }

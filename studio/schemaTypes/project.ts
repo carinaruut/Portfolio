@@ -27,16 +27,17 @@ export const project = defineType({
     defineField({
       name: 'shortDescription',
       title: 'Short description',
+      description: 'Optional summary shown on project cards and page headers.',
       type: 'text',
       rows: 3,
-      validation: (rule) => rule.required().min(20).max(220),
+      validation: (rule) => rule.min(20).max(220),
     }),
     defineField({
       name: 'body',
       title: 'Full description',
+      description: 'Optional longer description shown on the project page.',
       type: 'array',
       of: [defineArrayMember({ type: 'block' })],
-      validation: (rule) => rule.required().min(1),
     }),
     defineField({
       name: 'mainImage',
