@@ -5,8 +5,9 @@ import { formatMonthYear } from '../lib/format';
 interface Props {
   items: WorkExperience[];
   limit?: number;
+  compact?: boolean;
 }
-const { items, limit } = Astro.props;
+const { items, limit, compact = false } = Astro.props;
 const visibleItems = limit ? items.slice(0, limit) : items;
 ---
 
@@ -50,10 +51,58 @@ const visibleItems = limit ? items.slice(0, limit) : items;
             item.company
           )}
         </p>
-        <p class="mt-3 leading-relaxed text-base-content/70">
-          {item.description}
-        </p>
+        {!compact && (
+          <p class="mt-3 leading-relaxed text-base-content/70">
+            {item.description}
+          </p>
+        )}
+        {item.positions && item.positions.length > 0 && (
+          <div class="mt-4 space-y-2">
+            {item.positions.map((position) => (
+              <div class="flex flex-col justify-between gap-1 rounded-field bg-base-200 px-4 py-3 sm:flex-row">
+                <span class="font-semibold">{position.title}</span>
+                <span class="text-sm text-base-content/60">
+                  {position.period}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
+        {compact ? (
+          <ul class="mt-4 flex flex-wrap gap-2" aria-label="Technologies">
+            {item.details
+              ?.filter((section) => section.title === 'Tech Stack')
+              .flatMap((section) => section.items)
+              .flatMap((keyword) => keyword.split(','))
+              .map((keyword) => (
+                <li class="badge badge-outline">{keyword.trim()}</li>
+              ))}
+          </ul>
+        ) : (
+          item.details?.map((section) => (
+            <div class="mt-5">
+              <h4 class="font-bold">{section.title}</h4>
+              {section.description && (
+                <p class="mt-1 text-base-content/70">{section.description}</p>
+              )}
+              {section.items.length > 0 && (
+                <ul class="mt-2 list-disc space-y-1 pl-5 text-base-content/70">
+                  {section.items.map((detail) => (
+                    <li>{detail}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ))
+        )}
       </li>
     ))
   }
 </ol>
+{
+  compact && (
+    <a class="btn btn-outline btn-sm mt-6" href="/about#experience">
+      Read more about my experience
+    </a>
+  )
+}

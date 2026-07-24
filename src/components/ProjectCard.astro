@@ -40,15 +40,24 @@ const { project } = Astro.props;
     <p class="leading-relaxed text-base-content/70">
       {project.shortDescription}
     </p>
-    <time class="text-sm text-base-content/60" datetime={project.publishedAt}
-      >{formatDate(project.publishedAt)}</time
-    >
-    <div class="mt-1 flex flex-wrap gap-2" aria-label="Technologies">
-      {
-        project.technologies.map((technology) => (
-          <span class="badge badge-ghost">{technology}</span>
-        ))
-      }
-    </div>
+    {
+      project.publishedAt && (
+        <time
+          class="text-sm text-base-content/60"
+          datetime={project.publishedAt}
+        >
+          {formatDate(project.publishedAt)}
+        </time>
+      )
+    }
+    {
+      project.technologies.length > 0 && (
+        <div class="mt-1 flex flex-wrap gap-2" aria-label="Technologies">
+          {project.technologies.map((technology) => (
+            <span class="badge badge-ghost">{technology}</span>
+          ))}
+        </div>
+      )
+    }
   </div>
 </article>

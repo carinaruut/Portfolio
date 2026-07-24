@@ -27,7 +27,7 @@ const featuredProjects = projects
     <SectionHeading
       eyebrow="Selected work"
       title="Featured projects"
-      description="A few recent projects across design, technology, and experimentation."
+      description="Website concepts, 3D work, and digital illustrations."
     />
     <ProjectGrid projects={featuredProjects} />
     <a class="btn btn-outline mt-9" href="/projects">See every project</a>
@@ -56,11 +56,11 @@ const featuredProjects = projects
   <section class="content-wrap grid gap-16 py-20 sm:py-28 lg:grid-cols-2">
     <div>
       <SectionHeading eyebrow="Now" title="Latest workplace" />
-      <ExperienceList items={workExperiences} limit={1} />
+      <ExperienceList items={workExperiences} limit={1} compact />
     </div>
     <div>
       <SectionHeading eyebrow="Learning" title="Latest education" />
-      <EducationList items={education} limit={1} />
+      <EducationList items={education} limit={1} compact />
     </div>
   </section>
 

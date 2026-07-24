@@ -5,8 +5,9 @@ import { formatMonthYear } from '../lib/format';
 interface Props {
   items: Education[];
   limit?: number;
+  compact?: boolean;
 }
-const { items, limit } = Astro.props;
+const { items, limit, compact = false } = Astro.props;
 const visibleItems = limit ? items.slice(0, limit) : items;
 ---
 
@@ -18,7 +19,8 @@ const visibleItems = limit ? items.slice(0, limit) : items;
           <div class="flex flex-col justify-between gap-2 sm:flex-row sm:items-start">
             <div>
               <h3 class="card-title">
-                {item.qualification} · {item.field}
+                {item.qualification}
+                {item.field && ` · ${item.field}`}
               </h3>
               <p class="font-semibold text-primary">
                 {item.institutionUrl ? (
@@ -49,9 +51,49 @@ const visibleItems = limit ? items.slice(0, limit) : items;
               )}
             </p>
           </div>
-          <p class="mt-2 text-base-content/70">{item.description}</p>
+          {compact ? (
+            <ul class="mt-3 flex flex-wrap gap-2" aria-label="Study areas">
+              {item.details
+                ?.filter(
+                  (section) =>
+                    section.title !== 'Overall profile' &&
+                    section.title !== 'Certifications',
+                )
+                .map((section) => (
+                  <li class="badge badge-outline">{section.title}</li>
+                ))}
+            </ul>
+          ) : (
+            <>
+              <p class="mt-2 text-base-content/70">{item.description}</p>
+              {item.details?.map((section) => (
+                <div class="mt-4 border-t border-base-300 pt-4">
+                  <h4 class="font-bold">{section.title}</h4>
+                  {section.description && (
+                    <p class="mt-1 text-base-content/70">
+                      {section.description}
+                    </p>
+                  )}
+                  {section.items.length > 0 && (
+                    <ul class="mt-2 list-disc space-y-1 pl-5 text-base-content/70">
+                      {section.items.map((detail) => (
+                        <li>{detail}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              ))}
+            </>
+          )}
         </div>
       </article>
     ))
   }
 </div>
+{
+  compact && (
+    <a class="btn btn-outline btn-sm mt-6" href="/about#education">
+      Read more about my education
+    </a>
+  )
+}

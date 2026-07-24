@@ -22,15 +22,26 @@ const src = getImageUrl(image, width);
 
 {
   src ? (
-    <img
-      src={src}
-      alt={image?.alt ?? ''}
-      width={width}
-      height={height}
-      loading={loading}
-      decoding="async"
-      class={className}
-    />
+    <div class:list={['relative overflow-hidden', className]}>
+      <img
+        data-portfolio-image
+        src={src}
+        alt={image?.alt ?? ''}
+        width={width}
+        height={height}
+        loading={loading}
+        decoding="async"
+        class="h-full w-full object-cover"
+      />
+      <div
+        data-image-fallback
+        class="absolute inset-0 hidden place-items-center bg-base-300 text-base-content/55"
+        role="img"
+        aria-label={image?.alt || 'Image placeholder'}
+      >
+        <span class="text-sm font-medium">Image coming soon</span>
+      </div>
+    </div>
   ) : (
     <div
       class:list={[
@@ -44,3 +55,17 @@ const src = getImageUrl(image, width);
     </div>
   )
 }
+
+<script>
+  document
+    .querySelectorAll<HTMLImageElement>('[data-portfolio-image]')
+    .forEach((image) => {
+      const showFallback = () => {
+        image.classList.add('hidden');
+        image.nextElementSibling?.classList.replace('hidden', 'grid');
+      };
+
+      image.addEventListener('error', showFallback, { once: true });
+      if (image.complete && image.naturalWidth === 0) showFallback();
+    });
+</script>

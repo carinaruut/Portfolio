@@ -64,10 +64,16 @@ const { project, relatedProjects, profile } = Astro.props;
         >
           {project.shortDescription}
         </p>
-        <time
-          class="mt-5 block font-medium text-base-content/60"
-          datetime={project.publishedAt}>{formatDate(project.publishedAt)}</time
-        >
+        {
+          project.publishedAt && (
+            <time
+              class="mt-5 block font-medium text-base-content/60"
+              datetime={project.publishedAt}
+            >
+              {formatDate(project.publishedAt)}
+            </time>
+          )
+        }
       </div>
     </header>
 
@@ -96,17 +102,18 @@ const { project, relatedProjects, profile } = Astro.props;
               {project.category.title}
             </dd>
           </div>
-          <div>
-            <dt class="text-sm font-bold">Technologies</dt><dd
-              class="mt-2 flex flex-wrap gap-2"
-            >
-              {
-                project.technologies.map((item) => (
-                  <span class="badge badge-ghost">{item}</span>
-                ))
-              }
-            </dd>
-          </div>
+          {
+            project.technologies.length > 0 && (
+              <div>
+                <dt class="text-sm font-bold">Technologies</dt>
+                <dd class="mt-2 flex flex-wrap gap-2">
+                  {project.technologies.map((item) => (
+                    <span class="badge badge-ghost">{item}</span>
+                  ))}
+                </dd>
+              </div>
+            )
+          }
         </dl>
         {
           (project.projectUrl || project.sourceUrl) && (

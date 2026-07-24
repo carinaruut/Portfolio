@@ -1,4 +1,5 @@
 export type {
+  ContentSection,
   Education,
   ImageAsset,
   Profile,
@@ -7,5 +8,6 @@ export type {
   ProjectSummary,
   SiteContent,
   SocialLink,
+  TimelinePosition,
   WorkExperience,
 } from './content';

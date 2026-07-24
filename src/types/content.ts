@@ -15,7 +15,7 @@ export interface ProjectSummary {
   id: string;
   title: string;
   slug: string;
-  publishedAt: string;
+  publishedAt?: string;
   shortDescription: string;
   mainImage?: ImageAsset;
   category: ProjectCategory;
@@ -58,6 +58,8 @@ export interface WorkExperience {
   description: string;
   companyUrl?: string;
   logo?: ImageAsset;
+  positions?: TimelinePosition[];
+  details?: ContentSection[];
 }
 
 export interface Education {
@@ -70,6 +72,18 @@ export interface Education {
   description: string;
   institutionUrl?: string;
   logo?: ImageAsset;
+  details?: ContentSection[];
+}
+
+export interface TimelinePosition {
+  title: string;
+  period: string;
+}
+
+export interface ContentSection {
+  title: string;
+  description?: string;
+  items: string[];
 }
 
 export interface SiteContent {

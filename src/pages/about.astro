@@ -59,14 +59,17 @@ const { profile, workExperiences, education } = await getSiteContent();
     </ul>
   </section>
 
-  <section class="border-y border-base-300 bg-base-200 py-20 sm:py-28">
+  <section
+    id="experience"
+    class="scroll-mt-16 border-y border-base-300 bg-base-200 py-20 sm:py-28"
+  >
     <div class="content-wrap">
       <SectionHeading eyebrow="Experience" title="Where I’ve worked" />
       <ExperienceList items={workExperiences} />
     </div>
   </section>
 
-  <section class="content-wrap py-20 sm:py-28">
+  <section id="education" class="content-wrap scroll-mt-16 py-20 sm:py-28">
     <SectionHeading eyebrow="Education" title="What I’ve studied" />
     <EducationList items={education} />
   </section>
