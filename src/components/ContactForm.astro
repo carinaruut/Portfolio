@@ -1,0 +1,176 @@
+---
+interface Props {
+  recipientEmail: string;
+}
+
+const { recipientEmail } = Astro.props;
+---
+
+<section aria-labelledby="quick-email-title">
+  <h2 id="quick-email-title" class="footer-title">Send me an email</h2>
+  <form
+    class="grid gap-1"
+    action={`mailto:${recipientEmail}`}
+    method="post"
+    enctype="text/plain"
+    data-contact-form
+    data-recipient={recipientEmail}
+  >
+    <fieldset class="fieldset p-0">
+      <legend id="contact-name-label" class="fieldset-legend">Your name</legend>
+      <input
+        class="input input-bordered w-full rounded-full bg-base-100"
+        type="text"
+        name="name"
+        aria-labelledby="contact-name-label"
+        autocomplete="name"
+        maxlength="100"
+        required
+      />
+    </fieldset>
+    <fieldset class="fieldset p-0">
+      <legend id="contact-email-label" class="fieldset-legend">Email</legend>
+      <input
+        class="input input-bordered w-full rounded-full bg-base-100"
+        type="email"
+        name="email"
+        autocomplete="email"
+        inputmode="email"
+        maxlength="254"
+        aria-labelledby="contact-email-label"
+        aria-describedby="contact-email-help"
+        required
+      />
+      <p id="contact-email-help" class="label text-base-content/60">
+        This will help me respond to your query via email.
+      </p>
+    </fieldset>
+    <fieldset class="fieldset p-0">
+      <legend id="contact-message-label" class="fieldset-legend">Message</legend
+      >
+      <textarea
+        class="textarea textarea-bordered min-h-28 w-full resize-y bg-base-100"
+        name="message"
+        minlength="3"
+        maxlength="2000"
+        aria-labelledby="contact-message-label"
+        aria-describedby="contact-message-help"
+        required></textarea>
+      <p id="contact-message-help" class="label text-base-content/60">
+        What would you like to discuss?
+      </p>
+    </fieldset>
+
+    <label class="absolute -left-[10000px]" aria-hidden="true">
+      Leave this field empty
+      <input name="website" type="text" tabindex="-1" autocomplete="off" />
+    </label>
+
+    <p class="hidden text-sm text-error" role="alert" data-form-error></p>
+
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <p class="text-xs text-base-content/60">Opens your default email app.</p>
+      <button class="btn btn-primary px-8" type="submit">Submit</button>
+    </div>
+  </form>
+</section>
+
+<script>
+  const forms = document.querySelectorAll<HTMLFormElement>(
+    '[data-contact-form]',
+  );
+
+  forms.forEach((form) => {
+    const nameInput = form.elements.namedItem('name') as HTMLInputElement;
+    const emailInput = form.elements.namedItem('email') as HTMLInputElement;
+    const messageInput = form.elements.namedItem(
+      'message',
+    ) as HTMLTextAreaElement;
+    const websiteInput = form.elements.namedItem('website') as HTMLInputElement;
+    const error = form.querySelector<HTMLElement>('[data-form-error]');
+
+    const setErrorStyle = (
+      input: HTMLInputElement | HTMLTextAreaElement,
+      invalid: boolean,
+    ) => {
+      const errorClass =
+        input instanceof HTMLTextAreaElement ? 'textarea-error' : 'input-error';
+      input.classList.toggle(errorClass, invalid);
+    };
+
+    const showError = (
+      input: HTMLInputElement | HTMLTextAreaElement,
+      text: string,
+    ) => {
+      input.setCustomValidity(text);
+      setErrorStyle(input, true);
+      error?.classList.remove('hidden');
+      if (error) error.textContent = text;
+      input.reportValidity();
+      input.focus();
+    };
+
+    for (const input of [nameInput, emailInput, messageInput]) {
+      input.addEventListener('input', () => {
+        input.setCustomValidity('');
+        setErrorStyle(input, false);
+        error?.classList.add('hidden');
+      });
+      input.addEventListener('invalid', () => setErrorStyle(input, true));
+    }
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      if (websiteInput.value) return;
+
+      const name = nameInput.value.trim().replace(/\s+/g, ' ');
+      const email = emailInput.value.trim();
+      const message = messageInput.value.trim();
+      const hasMeaningfulText = /[\p{L}\p{N}]/u;
+      const repeatedCharacterOnly = /^(.)\1{7,}$/u;
+      const linkCount = (message.match(/(?:https?:\/\/|www\.)/gi) ?? []).length;
+
+      nameInput.value = name;
+      emailInput.value = email;
+      messageInput.value = message;
+
+      if (!name || !hasMeaningfulText.test(name)) {
+        showError(nameInput, 'Enter a valid name.');
+        return;
+      }
+
+      if (
+        !emailInput.validity.valid ||
+        !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)
+      ) {
+        showError(emailInput, 'Enter a valid email address.');
+        return;
+      }
+
+      if (!message || !hasMeaningfulText.test(message)) {
+        showError(messageInput, 'Enter a message using letters or numbers.');
+        return;
+      }
+
+      if (message.length < 3) {
+        showError(messageInput, 'Your message is too short.');
+        return;
+      }
+
+      if (repeatedCharacterOnly.test(message) || linkCount > 2) {
+        showError(messageInput, 'Please enter a genuine message without spam.');
+        return;
+      }
+
+      const recipient = form.dataset.recipient;
+      if (!recipient) return;
+
+      const subject = `Website enquiry from ${name}`;
+      const body = `Name: ${name}\nEmail: ${email}\n\n${message}`;
+      const query = new URLSearchParams({ subject, body });
+
+      window.location.href = `mailto:${recipient}?${query}`;
+    });
+  });
+</script>
