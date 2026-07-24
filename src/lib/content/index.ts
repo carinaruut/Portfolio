@@ -19,16 +19,33 @@ async function loadContent(): Promise<SiteContent> {
     return getMockContent();
   }
 
-  return getSanityContent({ projectId, dataset, apiVersion }).catch(
-    (error: unknown) => {
+  return getSanityContent({ projectId, dataset, apiVersion })
+    .then((content) => {
+      const fallback = getMockContent();
+      return {
+        profile: content.profile,
+        projects:
+          content.projects.length > 0 ? content.projects : fallback.projects,
+        categories:
+          content.categories.length > 0
+            ? content.categories
+            : fallback.categories,
+        workExperiences:
+          content.workExperiences.length > 0
+            ? content.workExperiences
+            : fallback.workExperiences,
+        education:
+          content.education.length > 0 ? content.education : fallback.education,
+      };
+    })
+    .catch((error: unknown) => {
       const message =
         error instanceof Error ? error.message : 'Unknown Sanity error';
       console.warn(
         `Unable to load Sanity content (${message}). Falling back to local mock content.`,
       );
       return getMockContent();
-    },
-  );
+    });
 }
 
 export function getSiteContent(): Promise<SiteContent> {

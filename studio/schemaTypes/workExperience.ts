@@ -1,4 +1,4 @@
-import { defineField, defineType } from 'sanity';
+import { defineArrayMember, defineField, defineType } from 'sanity';
 
 export const workExperience = defineType({
   name: 'workExperience',
@@ -41,6 +41,20 @@ export const workExperience = defineType({
       type: 'text',
       rows: 4,
       validation: (rule) => rule.required().max(500),
+    }),
+    defineField({
+      name: 'positions',
+      title: 'Position history',
+      description: 'Add positions in chronological order.',
+      type: 'array',
+      of: [defineArrayMember({ type: 'timelinePosition' })],
+    }),
+    defineField({
+      name: 'details',
+      title: 'Detail sections',
+      description: 'Use sections such as Focus Areas and Tech Stack.',
+      type: 'array',
+      of: [defineArrayMember({ type: 'contentSection' })],
     }),
     defineField({
       name: 'companyUrl',

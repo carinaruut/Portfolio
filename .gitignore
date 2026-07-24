@@ -3,4 +3,7 @@ dist/
 .astro/
 .env
 studio/dist/
+studio/.sanity/
+assets/processed/
+.DS_Store
 *.log

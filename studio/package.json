@@ -1,5 +1,19 @@
 {
   "name": "portfolio-studio",
   "private": true,
-  "type": "module"
+  "type": "module",
+  "scripts": {
+    "dev": "sanity dev",
+    "build": "sanity build dist"
+  },
+  "dependencies": {
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "sanity": "6.6.0",
+    "styled-components": "6.4.4"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3"
+  }
 }

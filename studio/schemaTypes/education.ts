@@ -1,4 +1,4 @@
-import { defineField, defineType } from 'sanity';
+import { defineArrayMember, defineField, defineType } from 'sanity';
 
 export const education = defineType({
   name: 'education',
@@ -21,7 +21,7 @@ export const education = defineType({
       name: 'field',
       title: 'Field of study',
       type: 'string',
-      validation: (rule) => rule.required(),
+      validation: (rule) => rule.max(160),
     }),
     defineField({
       name: 'startDate',
@@ -35,7 +35,15 @@ export const education = defineType({
       title: 'Description',
       type: 'text',
       rows: 4,
-      validation: (rule) => rule.required().max(500),
+      validation: (rule) => rule.required().max(1200),
+    }),
+    defineField({
+      name: 'details',
+      title: 'Detail sections',
+      description:
+        'Use sections such as Certifications, Overall Profile, and study areas.',
+      type: 'array',
+      of: [defineArrayMember({ type: 'contentSection' })],
     }),
     defineField({
       name: 'institutionUrl',

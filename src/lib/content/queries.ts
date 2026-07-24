@@ -7,24 +7,26 @@ export const siteContentQuery = `{
     shortDescription,
     "body": body[].children[].text,
     mainImage { alt, "assetRef": asset._ref },
-    gallery[] { alt, "assetRef": asset._ref },
+    "gallery": coalesce(gallery[] { alt, "assetRef": asset._ref }, []),
     category-> {
       "id": _id,
       title,
       "slug": slug.current,
-      description
+      description,
+      image { alt, "assetRef": asset._ref }
     },
-    technologies,
-    featured,
+    "technologies": coalesce(technologies, []),
+    "featured": coalesce(featured, false),
     projectUrl,
     sourceUrl,
-    "relatedProjectIds": relatedProjects[]._ref
+    "relatedProjectIds": coalesce(relatedProjects[]._ref, [])
   },
   "categories": *[_type == "projectCategory" && defined(slug.current)] | order(title asc) {
     "id": _id,
     title,
     "slug": slug.current,
-    description
+    description,
+    image { alt, "assetRef": asset._ref }
   },
   "workExperiences": *[_type == "workExperience"] | order(startDate desc) {
     "id": _id,
@@ -34,6 +36,8 @@ export const siteContentQuery = `{
     endDate,
     current,
     description,
+    positions[] { title, period },
+    details[] { title, description, "items": coalesce(items, []) },
     companyUrl,
     logo { alt, "assetRef": asset._ref }
   },
@@ -45,6 +49,7 @@ export const siteContentQuery = `{
     startDate,
     endDate,
     description,
+    details[] { title, description, "items": coalesce(items, []) },
     institutionUrl,
     logo { alt, "assetRef": asset._ref }
   },
@@ -52,11 +57,11 @@ export const siteContentQuery = `{
     name,
     professionalTitle,
     shortIntroduction,
-    "biography": biography[].children[].text,
+    "biography": coalesce(biography[].children[].text, []),
     profileImage { alt, "assetRef": asset._ref },
     email,
     location,
-    skills,
-    socialLinks[] { label, url }
+    "skills": coalesce(skills, []),
+    "socialLinks": coalesce(socialLinks[] { label, url }, [])
   }
 }`;

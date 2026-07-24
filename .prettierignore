@@ -2,4 +2,5 @@ dist
 .astro
 node_modules
 studio/dist
+studio/.sanity
 pnpm-lock.yaml
