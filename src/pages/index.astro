@@ -23,15 +23,21 @@ const featuredProjects = projects
 >
   <Hero profile={profile} />
 
-  <section class="content-wrap py-20 sm:py-28">
-    <SectionHeading
-      eyebrow="Selected work"
-      title="Featured projects"
-      description="Website concepts, 3D work, and digital illustrations."
-    />
-    <ProjectGrid projects={featuredProjects} />
-    <a class="btn btn-outline mt-9" href="/projects">See every project</a>
-  </section>
+  {
+    featuredProjects.length > 0 && (
+      <section class="content-wrap py-20 sm:py-28">
+        <SectionHeading
+          eyebrow="Selected work"
+          title="Featured projects"
+          description="Website concepts, 3D work, and digital illustrations."
+        />
+        <ProjectGrid projects={featuredProjects} />
+        <a class="btn btn-outline mt-9" href="/projects">
+          See every project
+        </a>
+      </section>
+    )
+  }
 
   <section class="border-y border-base-300 bg-base-200 py-20 sm:py-28">
     <div class="content-wrap">

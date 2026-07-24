@@ -9,6 +9,7 @@ export interface ProjectCategory {
   title: string;
   slug: string;
   description: string;
+  image?: ImageAsset;
 }
 
 export interface ProjectSummary {

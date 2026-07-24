@@ -1,5 +1,6 @@
 ---
 import type { ProjectCategory } from '../types';
+import PortfolioImage from './PortfolioImage.astro';
 
 interface Props {
   category: ProjectCategory;
@@ -12,10 +13,16 @@ const { category, count } = Astro.props;
   href={`/projects/category/${category.slug}`}
   class="card border border-base-300 bg-base-100 transition-colors hover:border-primary focus-visible:border-primary"
 >
+  <PortfolioImage
+    image={category.image}
+    width={900}
+    height={563}
+    class="aspect-[16/10] w-full rounded-t-box object-cover"
+  />
   <div class="card-body">
     <div class="flex items-start justify-between gap-4">
       <h3 class="card-title">{category.title}</h3>
-      <span class="badge badge-neutral">{count}</span>
+      {count > 0 && <span class="badge badge-neutral">{count}</span>}
     </div>
     <p class="text-base-content/70">{category.description}</p>
     <span class="mt-2 font-bold text-primary">Browse category →</span>
