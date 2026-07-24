@@ -1,0 +1,9 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist", "studio/dist"],
+  "compilerOptions": {
+    "plugins": [{ "name": "@astrojs/ts-plugin" }],
+    "noUncheckedIndexedAccess": true
+  }
+}

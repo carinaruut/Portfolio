@@ -1,0 +1,53 @@
+---
+import CategoryCard from '../../components/CategoryCard.astro';
+import ProjectGrid from '../../components/ProjectGrid.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getSiteContent } from '../../lib/content';
+
+const { profile, projects, categories } = await getSiteContent();
+---
+
+<BaseLayout
+  title="Projects"
+  description="Selected projects across design, development, and creative technology."
+  profile={profile}
+>
+  <header class="border-b border-base-300 bg-base-200">
+    <div class="content-wrap py-16 sm:py-24">
+      <p class="text-sm font-bold tracking-[0.18em] text-primary uppercase">
+        Portfolio
+      </p>
+      <h1 class="mt-3 text-5xl font-black tracking-tight sm:text-7xl">
+        Projects
+      </h1>
+      <p class="mt-5 max-w-2xl text-xl leading-relaxed text-base-content/70">
+        A growing collection of client work, independent projects, and useful
+        experiments.
+      </p>
+    </div>
+  </header>
+  <section class="content-wrap py-16 sm:py-24">
+    <SectionHeading
+      title="Browse by category"
+      description="Use these links to view lightweight, statically generated category pages."
+    />
+    <div class="grid gap-4 md:grid-cols-3">
+      {
+        categories.map((category) => (
+          <CategoryCard
+            category={category}
+            count={
+              projects.filter((project) => project.category.id === category.id)
+                .length
+            }
+          />
+        ))
+      }
+    </div>
+  </section>
+  <section class="content-wrap pb-20 sm:pb-28">
+    <SectionHeading title="All projects" />
+    <ProjectGrid projects={projects} />
+  </section>
+</BaseLayout>

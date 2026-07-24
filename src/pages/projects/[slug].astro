@@ -1,0 +1,182 @@
+---
+import type { GetStaticPaths } from 'astro';
+import PortfolioImage from '../../components/PortfolioImage.astro';
+import ProjectGrid from '../../components/ProjectGrid.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getRelatedProjects, getSiteContent } from '../../lib/content';
+import { formatDate } from '../../lib/format';
+import type { Profile, Project } from '../../types';
+
+export const getStaticPaths = (async () => {
+  const { projects, profile } = await getSiteContent();
+  return Promise.all(
+    projects.map(async (project) => ({
+      params: { slug: project.slug },
+      props: {
+        project,
+        relatedProjects: await getRelatedProjects(project.id),
+        profile,
+      },
+    })),
+  );
+}) satisfies GetStaticPaths;
+
+interface Props {
+  project: Project;
+  relatedProjects: Project[];
+  profile: Profile;
+}
+const { project, relatedProjects, profile } = Astro.props;
+---
+
+<BaseLayout
+  title={project.title}
+  description={project.shortDescription}
+  profile={profile}
+  image={project.mainImage}
+>
+  <article>
+    <header class="content-wrap py-14 sm:py-20">
+      <a class="link font-semibold text-primary" href="/projects"
+        >← Back to projects</a
+      >
+      <div class="mt-10 max-w-4xl">
+        <div class="flex flex-wrap gap-2">
+          <a
+            class="badge badge-outline"
+            href={`/projects/category/${project.category.slug}`}
+            >{project.category.title}</a
+          >
+          {
+            project.featured && (
+              <span class="badge badge-primary">Featured</span>
+            )
+          }
+        </div>
+        <h1
+          class="mt-5 text-5xl leading-tight font-black tracking-tight sm:text-7xl"
+        >
+          {project.title}
+        </h1>
+        <p
+          class="mt-6 max-w-3xl text-xl leading-relaxed text-base-content/70 sm:text-2xl"
+        >
+          {project.shortDescription}
+        </p>
+        <time
+          class="mt-5 block font-medium text-base-content/60"
+          datetime={project.publishedAt}>{formatDate(project.publishedAt)}</time
+        >
+      </div>
+    </header>
+
+    <div class="content-wrap">
+      <PortfolioImage
+        image={project.mainImage}
+        width={1600}
+        height={1000}
+        loading="eager"
+        class="aspect-[16/10] w-full rounded-box object-cover shadow-xl"
+      />
+    </div>
+
+    <section
+      class="content-wrap grid gap-12 py-16 sm:py-24 lg:grid-cols-[1fr_2fr]"
+    >
+      <aside>
+        <h2 class="text-sm font-bold tracking-[0.18em] text-primary uppercase">
+          Project details
+        </h2>
+        <dl class="mt-5 space-y-5">
+          <div>
+            <dt class="text-sm font-bold">Category</dt><dd
+              class="mt-1 text-base-content/70"
+            >
+              {project.category.title}
+            </dd>
+          </div>
+          <div>
+            <dt class="text-sm font-bold">Technologies</dt><dd
+              class="mt-2 flex flex-wrap gap-2"
+            >
+              {
+                project.technologies.map((item) => (
+                  <span class="badge badge-ghost">{item}</span>
+                ))
+              }
+            </dd>
+          </div>
+        </dl>
+        {
+          (project.projectUrl || project.sourceUrl) && (
+            <div class="mt-7 flex flex-wrap gap-3">
+              {project.projectUrl && (
+                <a
+                  class="btn btn-primary btn-sm"
+                  href={project.projectUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Visit project
+                  <span class="sr-only"> (opens in a new tab)</span>
+                </a>
+              )}
+              {project.sourceUrl && (
+                <a
+                  class="btn btn-outline btn-sm"
+                  href={project.sourceUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  View source<span class="sr-only"> (opens in a new tab)</span>
+                </a>
+              )}
+            </div>
+          )
+        }
+      </aside>
+      <div>
+        <h2 class="text-3xl font-bold tracking-tight">About the project</h2>
+        <div
+          class="prose-copy mt-6 text-lg leading-relaxed text-base-content/75"
+        >
+          {project.body.map((paragraph) => <p>{paragraph}</p>)}
+        </div>
+      </div>
+    </section>
+
+    {
+      project.gallery.length > 0 && (
+        <section class="border-y border-base-300 bg-base-200 py-16 sm:py-24">
+          <div class="content-wrap">
+            <>
+              <SectionHeading eyebrow="Gallery" title="A closer look" />
+              <div class="grid gap-6 md:grid-cols-2">
+                {project.gallery.map((image) => (
+                  <PortfolioImage
+                    image={image}
+                    width={1200}
+                    height={800}
+                    class="aspect-[3/2] w-full rounded-box object-cover"
+                  />
+                ))}
+              </div>
+            </>
+          </div>
+        </section>
+      )
+    }
+  </article>
+
+  {
+    relatedProjects.length > 0 && (
+      <section class="content-wrap py-20 sm:py-28">
+        <>
+          <SectionHeading eyebrow="Keep exploring" title="Related projects" />
+          <ProjectGrid projects={relatedProjects} />
+        </>
+      </section>
+    )
+  }
+</BaseLayout>

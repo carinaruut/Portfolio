@@ -1,0 +1,92 @@
+---
+import EducationList from '../components/EducationList.astro';
+import ExperienceList from '../components/ExperienceList.astro';
+import PortfolioImage from '../components/PortfolioImage.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getSiteContent } from '../lib/content';
+
+const { profile, workExperiences, education } = await getSiteContent();
+---
+
+<BaseLayout
+  title="About"
+  description={`Learn more about ${profile.name}, ${profile.professionalTitle}.`}
+  profile={profile}
+  image={profile.profileImage}
+>
+  <section
+    class="content-wrap grid items-center gap-12 py-16 sm:py-24 lg:grid-cols-[0.8fr_1.2fr]"
+  >
+    <PortfolioImage
+      image={profile.profileImage}
+      width={900}
+      height={900}
+      loading="eager"
+      class="aspect-square w-full rounded-box object-cover shadow-xl"
+    />
+    <div>
+      <p class="text-sm font-bold tracking-[0.18em] text-primary uppercase">
+        About
+      </p>
+      <h1 class="mt-3 text-5xl font-black tracking-tight sm:text-7xl">
+        I’m {profile.name}.
+      </h1>
+      <p class="mt-6 text-2xl leading-relaxed text-base-content/75">
+        {profile.shortIntroduction}
+      </p>
+      {profile.location && <p class="mt-4 font-semibold">{profile.location}</p>}
+    </div>
+  </section>
+
+  <section class="border-y border-base-300 bg-base-200 py-20">
+    <div class="content-wrap grid gap-10 lg:grid-cols-[0.7fr_1.3fr]">
+      <SectionHeading eyebrow="Background" title="A little more about me" />
+      <div class="prose-copy text-lg leading-relaxed text-base-content/75">
+        {profile.biography.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="content-wrap py-20 sm:py-28">
+    <SectionHeading eyebrow="Capabilities" title="Skills" />
+    <ul class="flex flex-wrap gap-3" aria-label="Skills">
+      {
+        profile.skills.map((skill) => (
+          <li class="badge badge-lg badge-outline p-4">{skill}</li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="border-y border-base-300 bg-base-200 py-20 sm:py-28">
+    <div class="content-wrap">
+      <SectionHeading eyebrow="Experience" title="Where I’ve worked" />
+      <ExperienceList items={workExperiences} />
+    </div>
+  </section>
+
+  <section class="content-wrap py-20 sm:py-28">
+    <SectionHeading eyebrow="Education" title="What I’ve studied" />
+    <EducationList items={education} />
+  </section>
+
+  <section
+    class="hero border-t border-base-300 bg-primary py-20 text-primary-content"
+  >
+    <div class="hero-content text-center">
+      <div class="max-w-xl">
+        <h2 class="text-4xl font-black tracking-tight sm:text-5xl">
+          Let’s make something useful.
+        </h2>
+        <p class="mt-5 text-lg text-primary-content/80">
+          Have a project in mind or simply want to say hello? I’d be glad to
+          hear from you.
+        </p>
+        <a class="btn btn-neutral mt-7" href={`mailto:${profile.email}`}
+          >Contact me</a
+        >
+      </div>
+    </div>
+  </section>
+</BaseLayout>

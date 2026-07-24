@@ -1,0 +1,25 @@
+---
+import type { ProjectSummary } from '../types';
+import EmptyState from './EmptyState.astro';
+import ProjectCard from './ProjectCard.astro';
+
+interface Props {
+  projects: ProjectSummary[];
+}
+const { projects } = Astro.props;
+---
+
+{
+  projects.length > 0 ? (
+    <div class="grid gap-7 md:grid-cols-2">
+      {projects.map((project) => (
+        <ProjectCard project={project} />
+      ))}
+    </div>
+  ) : (
+    <EmptyState
+      title="No projects here yet"
+      description="Projects in this collection will appear here when they are published."
+    />
+  )
+}

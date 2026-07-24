@@ -1,0 +1,46 @@
+---
+import type { ImageAsset } from '../types';
+import { getImageUrl } from '../lib/images';
+
+interface Props {
+  image?: ImageAsset;
+  class?: string;
+  width?: number;
+  height?: number;
+  loading?: 'eager' | 'lazy';
+}
+
+const {
+  image,
+  class: className = '',
+  width = 1200,
+  height = 800,
+  loading = 'lazy',
+} = Astro.props;
+const src = getImageUrl(image, width);
+---
+
+{
+  src ? (
+    <img
+      src={src}
+      alt={image?.alt ?? ''}
+      width={width}
+      height={height}
+      loading={loading}
+      decoding="async"
+      class={className}
+    />
+  ) : (
+    <div
+      class:list={[
+        'grid place-items-center bg-base-300 text-base-content/55',
+        className,
+      ]}
+      role="img"
+      aria-label={image?.alt || 'Image placeholder'}
+    >
+      <span class="text-sm font-medium">Image coming soon</span>
+    </div>
+  )
+}

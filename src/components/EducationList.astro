@@ -1,0 +1,57 @@
+---
+import type { Education } from '../types';
+import { formatMonthYear } from '../lib/format';
+
+interface Props {
+  items: Education[];
+  limit?: number;
+}
+const { items, limit } = Astro.props;
+const visibleItems = limit ? items.slice(0, limit) : items;
+---
+
+<div class="grid gap-4">
+  {
+    visibleItems.map((item) => (
+      <article class="card border border-base-300 bg-base-100">
+        <div class="card-body">
+          <div class="flex flex-col justify-between gap-2 sm:flex-row sm:items-start">
+            <div>
+              <h3 class="card-title">
+                {item.qualification} · {item.field}
+              </h3>
+              <p class="font-semibold text-primary">
+                {item.institutionUrl ? (
+                  <a
+                    class="link-hover"
+                    href={item.institutionUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {item.institution}
+                  </a>
+                ) : (
+                  item.institution
+                )}
+              </p>
+            </div>
+            <p class="shrink-0 text-sm text-base-content/60">
+              <time datetime={item.startDate}>
+                {formatMonthYear(item.startDate)}
+              </time>{' '}
+              –{' '}
+              {item.endDate ? (
+                <time datetime={item.endDate}>
+                  {formatMonthYear(item.endDate)}
+                </time>
+              ) : (
+                'Present'
+              )}
+            </p>
+          </div>
+          <p class="mt-2 text-base-content/70">{item.description}</p>
+        </div>
+      </article>
+    ))
+  }
+</div>

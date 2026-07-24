@@ -1,0 +1,54 @@
+---
+import type { ProjectSummary } from '../types';
+import { formatDate } from '../lib/format';
+import PortfolioImage from './PortfolioImage.astro';
+
+interface Props {
+  project: ProjectSummary;
+}
+const { project } = Astro.props;
+---
+
+<article
+  class="card overflow-hidden border border-base-300 bg-base-100 shadow-sm transition-shadow hover:shadow-md"
+>
+  <a
+    href={`/projects/${project.slug}`}
+    class="group block aspect-[16/10] overflow-hidden"
+  >
+    <PortfolioImage
+      image={project.mainImage}
+      width={900}
+      height={563}
+      class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+    />
+  </a>
+  <div class="card-body gap-3">
+    <div class="flex flex-wrap items-center gap-2">
+      <a
+        class="badge badge-outline"
+        href={`/projects/category/${project.category.slug}`}
+        >{project.category.title}</a
+      >
+      {project.featured && <span class="badge badge-primary">Featured</span>}
+    </div>
+    <h3 class="card-title text-2xl">
+      <a class="link-hover" href={`/projects/${project.slug}`}
+        >{project.title}</a
+      >
+    </h3>
+    <p class="leading-relaxed text-base-content/70">
+      {project.shortDescription}
+    </p>
+    <time class="text-sm text-base-content/60" datetime={project.publishedAt}
+      >{formatDate(project.publishedAt)}</time
+    >
+    <div class="mt-1 flex flex-wrap gap-2" aria-label="Technologies">
+      {
+        project.technologies.map((technology) => (
+          <span class="badge badge-ghost">{technology}</span>
+        ))
+      }
+    </div>
+  </div>
+</article>

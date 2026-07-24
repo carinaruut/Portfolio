@@ -1,0 +1,45 @@
+---
+import type { Profile } from '../types';
+
+interface Props {
+  profile: Profile;
+}
+const { profile } = Astro.props;
+---
+
+<footer
+  class="footer border-t border-base-300 bg-base-200 p-10 sm:px-[max(2rem,calc((100%-72rem)/2))]"
+>
+  <aside>
+    <p class="text-lg font-bold">{profile.name}</p>
+    <p class="max-w-sm text-base-content/70">
+      {profile.professionalTitle}. {profile.location}
+    </p>
+    <p class="text-sm text-base-content/60">
+      © {new Date().getFullYear()}
+      {profile.name}
+    </p>
+  </aside>
+  <nav>
+    <h2 class="footer-title">Explore</h2>
+    <a class="link link-hover" href="/projects">Projects</a>
+    <a class="link link-hover" href="/about">About</a>
+    <a class="link link-hover" href={`mailto:${profile.email}`}>Email</a>
+  </nav>
+  <nav>
+    <h2 class="footer-title">Elsewhere</h2>
+    {
+      profile.socialLinks.map((link) => (
+        <a
+          class="link link-hover"
+          href={link.url}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {link.label}
+          <span class="sr-only"> (opens in a new tab)</span>
+        </a>
+      ))
+    }
+  </nav>
+</footer>

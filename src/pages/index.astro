@@ -1,0 +1,93 @@
+---
+import CategoryCard from '../components/CategoryCard.astro';
+import EducationList from '../components/EducationList.astro';
+import ExperienceList from '../components/ExperienceList.astro';
+import Hero from '../components/Hero.astro';
+import PortfolioImage from '../components/PortfolioImage.astro';
+import ProjectGrid from '../components/ProjectGrid.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getSiteContent } from '../lib/content';
+
+const { profile, projects, categories, workExperiences, education } =
+  await getSiteContent();
+const featuredProjects = projects
+  .filter((project) => project.featured)
+  .slice(0, 4);
+---
+
+<BaseLayout
+  title={profile.name}
+  description={profile.shortIntroduction}
+  profile={profile}
+>
+  <Hero profile={profile} />
+
+  <section class="content-wrap py-20 sm:py-28">
+    <SectionHeading
+      eyebrow="Selected work"
+      title="Featured projects"
+      description="A few recent projects across design, technology, and experimentation."
+    />
+    <ProjectGrid projects={featuredProjects} />
+    <a class="btn btn-outline mt-9" href="/projects">See every project</a>
+  </section>
+
+  <section class="border-y border-base-300 bg-base-200 py-20 sm:py-28">
+    <div class="content-wrap">
+      <SectionHeading eyebrow="Explore" title="Project categories" />
+      <div class="grid gap-5 md:grid-cols-3">
+        {
+          categories.map((category) => (
+            <CategoryCard
+              category={category}
+              count={
+                projects.filter(
+                  (project) => project.category.id === category.id,
+                ).length
+              }
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="content-wrap grid gap-16 py-20 sm:py-28 lg:grid-cols-2">
+    <div>
+      <SectionHeading eyebrow="Now" title="Latest workplace" />
+      <ExperienceList items={workExperiences} limit={1} />
+    </div>
+    <div>
+      <SectionHeading eyebrow="Learning" title="Latest education" />
+      <EducationList items={education} limit={1} />
+    </div>
+  </section>
+
+  <section class="border-t border-base-300 bg-neutral text-neutral-content">
+    <div
+      class="content-wrap grid items-center gap-10 py-20 sm:py-28 md:grid-cols-[0.7fr_1.3fr]"
+    >
+      <PortfolioImage
+        image={profile.profileImage}
+        width={700}
+        height={700}
+        class="aspect-square w-full rounded-box object-cover"
+      />
+      <div>
+        <p
+          class="mb-3 text-sm font-bold tracking-[0.18em] text-primary uppercase"
+        >
+          About me
+        </p>
+        <h2 class="text-3xl font-bold tracking-tight sm:text-5xl">
+          Thoughtful work, built with care.
+        </h2>
+        <p class="mt-5 text-lg leading-relaxed text-neutral-content/75">
+          {profile.biography[0]}
+        </p>
+        <a class="btn btn-primary mt-7" href="/about">More about me</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
