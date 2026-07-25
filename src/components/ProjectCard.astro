@@ -1,6 +1,6 @@
 ---
 import type { ProjectSummary } from '../types';
-import { formatDate } from '../lib/format';
+import { formatYear } from '../lib/format';
 import PortfolioImage from './PortfolioImage.astro';
 
 interface Props {
@@ -9,37 +9,40 @@ interface Props {
 const { project } = Astro.props;
 ---
 
-<article
-  class="card overflow-hidden border border-base-300 bg-base-100 shadow-sm transition-shadow hover:shadow-md"
+<a
+  href={`/projects/${project.slug}`}
+  class="card group overflow-hidden border border-base-300 bg-base-100 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-lg focus-visible:-translate-y-1 focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none"
+  aria-label={`View ${project.title}`}
 >
-  <a
-    href={`/projects/${project.slug}`}
-    class="group block aspect-16/10 overflow-hidden"
-  >
+  <div class="block aspect-16/10 overflow-hidden">
     <PortfolioImage
       image={project.mainImage}
       width={900}
       height={563}
-      class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+      class="h-full w-full object-cover"
     />
-  </a>
+  </div>
   <div class="card-body gap-3">
     {project.featured && <span class="badge badge-primary">Featured</span>}
-    <h3 class="card-title text-2xl">
-      <a class="link-hover" href={`/projects/${project.slug}`}
-        >{project.title}</a
-      >
+    <h3
+      class="card-title text-2xl transition-colors group-hover:text-accent group-focus-visible:text-accent"
+    >
+      {project.title}
     </h3>
-    <p class="leading-relaxed text-base-content/70">
-      {project.shortDescription}
-    </p>
+    {
+      project.shortDescription && (
+        <p class="leading-relaxed text-base-content/70">
+          {project.shortDescription}
+        </p>
+      )
+    }
     {
       project.publishedAt && (
         <time
           class="text-sm text-base-content/60"
           datetime={project.publishedAt}
         >
-          {formatDate(project.publishedAt)}
+          {formatYear(project.publishedAt)}
         </time>
       )
     }
@@ -47,10 +50,10 @@ const { project } = Astro.props;
       project.technologies.length > 0 && (
         <ul class="mt-1 flex flex-wrap gap-2" aria-label="Project tags">
           {project.technologies.map((technology) => (
-            <li class="badge badge-outline">{technology}</li>
+            <li class="badge badge-secondary badge-outline">{technology}</li>
           ))}
         </ul>
       )
     }
   </div>
-</article>
+</a>
