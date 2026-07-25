@@ -73,6 +73,7 @@ export interface Education {
   startDate: string;
   endDate?: string;
   description: string;
+  finalGrade?: string;
   institutionUrl?: string;
   logo?: ImageAsset;
   details?: ContentSection[];

@@ -59,6 +59,7 @@ export const siteContentQuery = `{
     startDate,
     endDate,
     description,
+    finalGrade,
     details[] { title, description, "items": coalesce(items, []) },
     institutionUrl,
     logo { alt, "assetRef": asset._ref }

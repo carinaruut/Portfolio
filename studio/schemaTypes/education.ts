@@ -38,6 +38,13 @@ export const education = defineType({
       validation: (rule) => rule.required().max(1200),
     }),
     defineField({
+      name: 'finalGrade',
+      title: 'Final grade',
+      description: 'Optional free-text grade or result.',
+      type: 'string',
+      validation: (rule) => rule.max(160),
+    }),
+    defineField({
       name: 'details',
       title: 'Detail sections',
       description:
