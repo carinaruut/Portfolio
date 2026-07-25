@@ -73,6 +73,8 @@ export const siteContentQuery = `{
     description,
     credentialId,
     credentialUrl,
+    "pdfUrl": pdfFile.asset->url,
+    "pdfFileName": pdfFile.asset->originalFilename,
     "skills": coalesce(skills, [])
   },
   "profile": *[_type == "profile"][0] {

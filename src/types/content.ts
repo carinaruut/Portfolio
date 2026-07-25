@@ -88,6 +88,8 @@ export interface CourseCertificate {
   description: string;
   credentialId?: string;
   credentialUrl?: string;
+  pdfUrl?: string;
+  pdfFileName?: string;
   skills: string[];
 }
 
