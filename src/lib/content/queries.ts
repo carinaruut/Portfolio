@@ -12,6 +12,12 @@ export const siteContentQuery = `{
       "width": asset->metadata.dimensions.width,
       "height": asset->metadata.dimensions.height
     },
+    model3d {
+      alt,
+      "url": asset->url,
+      "fileName": asset->originalFilename,
+      "size": asset->size
+    },
     "gallery": coalesce(gallery[] {
       alt,
       "assetRef": asset._ref,

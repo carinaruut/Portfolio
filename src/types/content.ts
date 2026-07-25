@@ -6,6 +6,13 @@ export interface ImageAsset {
   height?: number;
 }
 
+export interface Model3DAsset {
+  url: string;
+  alt: string;
+  fileName?: string;
+  size?: number;
+}
+
 export interface ProjectCategory {
   id: string;
   title: string;
@@ -29,6 +36,7 @@ export interface ProjectSummary {
 export interface Project extends ProjectSummary {
   body: string[];
   gallery: ImageAsset[];
+  model3d?: Model3DAsset;
   projectUrl?: string;
   sourceUrl?: string;
   relatedProjectIds: string[];

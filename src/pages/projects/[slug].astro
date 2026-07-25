@@ -1,5 +1,6 @@
 ---
 import type { GetStaticPaths } from 'astro';
+import ModelViewer from '../../components/ModelViewer.astro';
 import PortfolioImage from '../../components/PortfolioImage.astro';
 import ProjectGrid from '../../components/ProjectGrid.astro';
 import SectionHeading from '../../components/SectionHeading.astro';
@@ -33,6 +34,7 @@ const pageDescription = (
   `View ${project.title} in ${project.category.title}.`
 ).slice(0, 220);
 const useSideLayout = Boolean(
+  !project.model3d &&
   project.mainImage?.width &&
   project.mainImage.height &&
   project.mainImage.width <= project.mainImage.height * 1.15,
@@ -90,17 +92,27 @@ const useSideLayout = Boolean(
           'lg:grid lg:grid-cols-[minmax(18rem,30rem)_minmax(0,1fr)] lg:items-start lg:gap-16',
       ]}
     >
-      <PortfolioImage
-        image={project.mainImage}
-        width={useSideLayout ? 720 : 1400}
-        height={useSideLayout ? 960 : 900}
-        loading="eager"
-        fit="contain"
-        class:list={[
-          'mx-auto w-full',
-          useSideLayout ? 'max-w-[30rem]' : 'max-w-5xl',
-        ]}
-      />
+      {
+        project.model3d ? (
+          <ModelViewer
+            model={project.model3d}
+            poster={project.mainImage}
+            class="mx-auto max-w-5xl"
+          />
+        ) : (
+          <PortfolioImage
+            image={project.mainImage}
+            width={useSideLayout ? 720 : 1400}
+            height={useSideLayout ? 960 : 900}
+            loading="eager"
+            fit="contain"
+            class:list={[
+              'mx-auto w-full',
+              useSideLayout ? 'max-w-[30rem]' : 'max-w-5xl',
+            ]}
+          />
+        )
+      }
 
       <section
         class:list={[

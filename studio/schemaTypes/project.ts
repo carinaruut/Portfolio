@@ -55,6 +55,24 @@ export const project = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'model3d',
+      title: 'Interactive 3D model',
+      description:
+        'Upload an optimized GLB exported from Blender. Keep the original .blend file private.',
+      type: 'file',
+      options: { accept: '.glb,model/gltf-binary' },
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Model description',
+          description:
+            'Describe the model for visitors who cannot see the interactive preview.',
+          type: 'string',
+          validation: (rule) => rule.required().max(240),
+        }),
+      ],
+    }),
+    defineField({
       name: 'gallery',
       title: 'Gallery',
       type: 'array',

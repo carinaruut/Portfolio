@@ -3,6 +3,7 @@ export type {
   CourseCertificate,
   Education,
   ImageAsset,
+  Model3DAsset,
   Profile,
   Project,
   ProjectCategory,
