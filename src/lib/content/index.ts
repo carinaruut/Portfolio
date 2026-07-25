@@ -36,6 +36,10 @@ async function loadContent(): Promise<SiteContent> {
             : fallback.workExperiences,
         education:
           content.education.length > 0 ? content.education : fallback.education,
+        coursesCertificates:
+          content.coursesCertificates.length > 0
+            ? content.coursesCertificates
+            : fallback.coursesCertificates,
       };
     })
     .catch((error: unknown) => {

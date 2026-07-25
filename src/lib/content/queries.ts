@@ -63,6 +63,17 @@ export const siteContentQuery = `{
     institutionUrl,
     logo { alt, "assetRef": asset._ref }
   },
+  "coursesCertificates": *[_type == "courseCertificate"] | order(completedAt desc) {
+    "id": _id,
+    title,
+    provider,
+    kind,
+    completedAt,
+    description,
+    credentialId,
+    credentialUrl,
+    "skills": coalesce(skills, [])
+  },
   "profile": *[_type == "profile"][0] {
     name,
     professionalTitle,

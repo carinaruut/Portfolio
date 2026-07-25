@@ -1,5 +1,6 @@
 ---
 import CategoryCard from '../components/CategoryCard.astro';
+import CourseCertificateList from '../components/CourseCertificateList.astro';
 import EducationList from '../components/EducationList.astro';
 import ExperienceList from '../components/ExperienceList.astro';
 import Hero from '../components/Hero.astro';
@@ -9,8 +10,14 @@ import SectionHeading from '../components/SectionHeading.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getSiteContent } from '../lib/content';
 
-const { profile, projects, categories, workExperiences, education } =
-  await getSiteContent();
+const {
+  profile,
+  projects,
+  categories,
+  workExperiences,
+  education,
+  coursesCertificates,
+} = await getSiteContent();
 const featuredProjects = projects
   .filter((project) => project.featured)
   .slice(0, 4);
@@ -59,7 +66,7 @@ const featuredProjects = projects
     </div>
   </section>
 
-  <section class="content-wrap grid gap-16 py-20 sm:py-28 lg:grid-cols-2">
+  <section class="content-wrap grid gap-16 py-20 sm:py-28 xl:grid-cols-3">
     <div>
       <SectionHeading eyebrow="Now" title="Latest workplace" />
       <ExperienceList items={workExperiences} limit={1} compact />
@@ -67,6 +74,10 @@ const featuredProjects = projects
     <div>
       <SectionHeading eyebrow="Learning" title="Latest education" />
       <EducationList items={education} limit={1} compact />
+    </div>
+    <div>
+      <SectionHeading eyebrow="Growth" title="Latest credential" />
+      <CourseCertificateList items={coursesCertificates} limit={1} compact />
     </div>
   </section>
 

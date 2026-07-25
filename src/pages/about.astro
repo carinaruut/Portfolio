@@ -1,12 +1,14 @@
 ---
 import EducationList from '../components/EducationList.astro';
+import CourseCertificateList from '../components/CourseCertificateList.astro';
 import ExperienceList from '../components/ExperienceList.astro';
 import PortfolioImage from '../components/PortfolioImage.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getSiteContent } from '../lib/content';
 
-const { profile, workExperiences, education } = await getSiteContent();
+const { profile, workExperiences, education, coursesCertificates } =
+  await getSiteContent();
 ---
 
 <BaseLayout
@@ -75,8 +77,19 @@ const { profile, workExperiences, education } = await getSiteContent();
   </section>
 
   <section
-    class="hero border-t border-base-300 bg-primary py-20 text-primary-content"
+    id="courses-certificates"
+    class="scroll-mt-16 border-y border-base-300 bg-base-200 py-20 sm:py-28"
   >
+    <div class="content-wrap">
+      <SectionHeading
+        eyebrow="Continued learning"
+        title="Courses and certificates"
+      />
+      <CourseCertificateList items={coursesCertificates} />
+    </div>
+  </section>
+
+  <section class="hero bg-primary py-20 text-primary-content">
     <div class="hero-content text-center">
       <div class="max-w-xl">
         <h2 class="text-4xl font-black tracking-tight sm:text-5xl">

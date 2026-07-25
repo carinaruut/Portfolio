@@ -1,5 +1,6 @@
 export type {
   ContentSection,
+  CourseCertificate,
   Education,
   ImageAsset,
   Profile,

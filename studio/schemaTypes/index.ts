@@ -1,4 +1,5 @@
 import { contentSection } from './contentSection';
+import { courseCertificate } from './courseCertificate';
 import { education } from './education';
 import { profile } from './profile';
 import { project } from './project';
@@ -13,5 +14,6 @@ export const schemaTypes = [
   projectCategory,
   workExperience,
   education,
+  courseCertificate,
   profile,
 ];

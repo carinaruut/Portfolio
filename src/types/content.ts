@@ -78,6 +78,18 @@ export interface Education {
   details?: ContentSection[];
 }
 
+export interface CourseCertificate {
+  id: string;
+  title: string;
+  provider: string;
+  kind: 'course' | 'certificate';
+  completedAt: string;
+  description: string;
+  credentialId?: string;
+  credentialUrl?: string;
+  skills: string[];
+}
+
 export interface TimelinePosition {
   title: string;
   period: string;
@@ -94,5 +106,6 @@ export interface SiteContent {
   categories: ProjectCategory[];
   workExperiences: WorkExperience[];
   education: Education[];
+  coursesCertificates: CourseCertificate[];
   profile: Profile;
 }

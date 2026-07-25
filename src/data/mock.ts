@@ -1,11 +1,13 @@
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
+import coursesCertificatesData from './coursesCertificates.json';
 import portfolioCards from './portfolioCards.json';
 import portfolioItems from './portfolioItems.json';
 import profile from './profile.json';
 import timeline from './timeline.json';
 import type {
   ContentSection,
+  CourseCertificate,
   Education,
   Project,
   ProjectCategory,
@@ -55,7 +57,10 @@ const parsePeriod = (value: string) => {
 const getDetails = (entry: (typeof timeline)[number]): ContentSection[] =>
   (entry.additionals ?? []).map((section) => ({
     title: section.title,
-    description: 'description' in section ? section.description : undefined,
+    description:
+      'description' in section && typeof section.description === 'string'
+        ? section.description
+        : undefined,
     items: [...section.items],
   }));
 
@@ -97,6 +102,10 @@ const workExperiences: WorkExperience[] = timeline
   })
   .reverse();
 
+const coursesCertificates: CourseCertificate[] = coursesCertificatesData
+  .map((item) => ({ ...item, kind: item.kind as CourseCertificate['kind'] }))
+  .sort((a, b) => b.completedAt.localeCompare(a.completedAt));
+
 const categories: ProjectCategory[] = portfolioCards.map((card) => ({
   id: `category-${card.slug}`,
   title: card.cardTitle,
@@ -134,5 +143,6 @@ export const mockContent: SiteContent = {
   projects,
   workExperiences,
   education,
+  coursesCertificates,
   profile,
 };
