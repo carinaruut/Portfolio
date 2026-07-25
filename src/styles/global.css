@@ -2,12 +2,12 @@
 
 @plugin 'daisyui' {
   themes:
-    cupcake --default,
-    dark --prefersdark;
+    customTheme --default,
+    customDark --prefersdark;
 }
 
 @plugin 'daisyui/theme' {
-  name: 'cupcake';
+  name: 'customTheme';
   default: true;
   prefersdark: false;
   color-scheme: 'light';
@@ -17,8 +17,8 @@
   --color-base-content: #16213d;
   --color-primary: #fec8c8;
   --color-primary-content: #a0004a;
-  --color-secondary: #96f7e4;
-  --color-secondary-content: #005d58;
+  --color-secondary: #a683ff;
+  --color-secondary-content: #2e0c67;
   --color-accent: #ffd6a7;
   --color-accent-content: #9f2d00;
   --color-neutral: #262629;
@@ -42,7 +42,7 @@
 }
 
 @plugin 'daisyui/theme' {
-  name: 'dark';
+  name: 'customDark';
   default: false;
   prefersdark: true;
   color-scheme: 'dark';
@@ -76,7 +76,7 @@
   --noise: 0;
 }
 
-@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+@custom-variant dark (&:where([data-theme='customDark'], [data-theme='customDark'] *));
 
 @theme {
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;

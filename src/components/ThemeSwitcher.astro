@@ -12,13 +12,24 @@
   (() => {
     const button = document.querySelector('[data-theme-toggle]');
     const root = document.documentElement;
+    const lightTheme = 'customTheme';
+    const darkTheme = 'customDark';
     const saved = localStorage.getItem('portfolio-theme');
-    if (saved === 'light' || saved === 'dark') root.dataset.theme = saved;
+    const savedTheme =
+      saved === 'light' ? lightTheme : saved === 'dark' ? darkTheme : saved;
+
+    if (savedTheme === lightTheme || savedTheme === darkTheme) {
+      root.dataset.theme = savedTheme;
+      localStorage.setItem('portfolio-theme', savedTheme);
+    }
+
     button?.addEventListener('click', () => {
       const current =
         root.dataset.theme ||
-        (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-      const next = current === 'dark' ? 'light' : 'dark';
+        (matchMedia('(prefers-color-scheme: dark)').matches
+          ? darkTheme
+          : lightTheme);
+      const next = current === darkTheme ? lightTheme : darkTheme;
       root.dataset.theme = next;
       localStorage.setItem('portfolio-theme', next);
     });

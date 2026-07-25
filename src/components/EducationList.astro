@@ -46,20 +46,18 @@ const isCertificationSection = (title: string) =>
               )}
             </div>
             {compact ? (
-              <p class="flex shrink-0 flex-col text-sm leading-snug text-base-content/60">
+              <p class="shrink-0 text-sm leading-snug whitespace-nowrap text-base-content/60">
                 <time datetime={item.startDate}>
                   {formatMonthYear(item.startDate)}
                 </time>{' '}
-                <span aria-hidden="true">–</span>
-                <span>
-                  {item.endDate ? (
-                    <time datetime={item.endDate}>
-                      {formatMonthYear(item.endDate)}
-                    </time>
-                  ) : (
-                    'Present'
-                  )}
-                </span>
+                <span aria-hidden="true">–</span> <br class="hidden xl:block" />
+                {item.endDate ? (
+                  <time datetime={item.endDate}>
+                    {formatMonthYear(item.endDate)}
+                  </time>
+                ) : (
+                  'Present'
+                )}
               </p>
             ) : (
               <p class="shrink-0 text-sm text-base-content/60">

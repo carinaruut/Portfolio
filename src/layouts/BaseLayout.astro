@@ -45,8 +45,14 @@ const fullTitle = title === profile.name ? title : `${title} | ${profile.name}`;
     <title>{fullTitle}</title>
     <script is:inline>
       (() => {
-        const theme = localStorage.getItem('portfolio-theme');
-        if (theme === 'light' || theme === 'dark')
+        const saved = localStorage.getItem('portfolio-theme');
+        const theme =
+          saved === 'light'
+            ? 'customTheme'
+            : saved === 'dark'
+              ? 'customDark'
+              : saved;
+        if (theme === 'customTheme' || theme === 'customDark')
           document.documentElement.dataset.theme = theme;
       })();
     </script>
