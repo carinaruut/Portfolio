@@ -49,7 +49,7 @@ const useSideLayout = Boolean(
     <header class="border-y border-base-300 bg-base-200">
       <div class="content-wrap py-10 sm:py-10">
         <nav
-          class="breadcrumbs mb-8 text-sm font-medium text-primary"
+          class="breadcrumbs text-primary-foreground mb-8 text-sm font-medium"
           aria-label="Breadcrumb"
         >
           <ul>
@@ -63,7 +63,9 @@ const useSideLayout = Boolean(
             <li aria-current="page">{project.title}</li>
           </ul>
         </nav>
-        <p class="text-sm font-bold tracking-[0.18em] text-primary uppercase">
+        <p
+          class="text-primary-foreground text-sm font-bold tracking-[0.18em] uppercase"
+        >
           Project
         </p>
         <h1
@@ -131,7 +133,7 @@ const useSideLayout = Boolean(
                     <dt class="text-sm font-bold">Technologies</dt>
                     <dd class="mt-2 flex flex-wrap gap-2">
                       {project.technologies.map((item) => (
-                        <span class="badge badge-ghost">{item}</span>
+                        <span class="badge badge-soft">{item}</span>
                       ))}
                     </dd>
                   </div>
@@ -154,7 +156,7 @@ const useSideLayout = Boolean(
                   )}
                   {project.sourceUrl && (
                     <a
-                      class="btn btn-outline btn-sm"
+                      class="btn btn-soft btn-sm"
                       href={project.sourceUrl}
                       target="_blank"
                       rel="noreferrer"

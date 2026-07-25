@@ -17,7 +17,8 @@
   --color-base-content: #16213d;
   --color-primary: #fec8c8;
   --color-primary-content: #a0004a;
-  --color-secondary: #a683ff;
+  --color-primary-foreground: #feb2b2;
+  --color-secondary: #7e7994;
   --color-secondary-content: #2e0c67;
   --color-accent: #ffd6a7;
   --color-accent-content: #9f2d00;
@@ -52,6 +53,7 @@
   --color-base-content: #eef3ff;
   --color-primary: #feccd2;
   --color-primary-content: #5b1038;
+  --color-primary-foreground: #feccd2;
   --color-secondary: #96f7e4;
   --color-secondary-content: #003b39;
   --color-accent: #ffd6a7;
@@ -106,5 +108,9 @@
 
   .prose-copy p + p {
     @apply mt-5;
+  }
+
+  .text-primary-foreground {
+    color: var(--color-primary-foreground);
   }
 }

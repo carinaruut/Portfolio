@@ -25,7 +25,7 @@ const { project } = Astro.props;
   <div class="card-body gap-3">
     {project.featured && <span class="badge badge-primary">Featured</span>}
     <h3
-      class="card-title text-2xl transition-colors group-hover:text-accent group-focus-visible:text-accent"
+      class="card-title text-2xl transition-colors group-hover:text-secondary group-focus-visible:text-accent"
     >
       {project.title}
     </h3>
@@ -50,7 +50,7 @@ const { project } = Astro.props;
       project.technologies.length > 0 && (
         <ul class="mt-1 flex flex-wrap gap-2" aria-label="Project tags">
           {project.technologies.map((technology) => (
-            <li class="badge badge-secondary badge-outline">{technology}</li>
+            <li class="badge badge-soft">{technology}</li>
           ))}
         </ul>
       )

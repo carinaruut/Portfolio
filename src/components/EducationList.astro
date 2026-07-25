@@ -24,7 +24,7 @@ const isCertificationSection = (title: string) =>
                 {item.qualification}
                 {item.field && ` · ${item.field}`}
               </h3>
-              <p class="font-semibold text-primary">
+              <p class="text-primary-foreground font-semibold">
                 {item.institutionUrl ? (
                   <a
                     class="link-hover"
@@ -84,7 +84,7 @@ const isCertificationSection = (title: string) =>
                     !isCertificationSection(section.title),
                 )
                 .map((section) => (
-                  <li class="badge badge-outline">{section.title}</li>
+                  <li class="badge badge-soft">{section.title}</li>
                 ))}
             </ul>
           ) : (
@@ -118,7 +118,7 @@ const isCertificationSection = (title: string) =>
 </div>
 {
   compact && (
-    <a class="btn btn-outline btn-sm mt-6" href="/about#education">
+    <a class="btn btn-accent btn-sm mt-6" href="/about#education">
       Read more about my education
     </a>
   )
