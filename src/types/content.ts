@@ -37,6 +37,7 @@ export interface Project extends ProjectSummary {
   body: string[];
   gallery: ImageAsset[];
   model3d?: Model3DAsset;
+  videoUrl?: string;
   projectUrl?: string;
   sourceUrl?: string;
   relatedProjectIds: string[];

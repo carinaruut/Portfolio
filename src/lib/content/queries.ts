@@ -18,6 +18,7 @@ export const siteContentQuery = `{
       "fileName": asset->originalFilename,
       "size": asset->size
     },
+    videoUrl,
     "gallery": coalesce(gallery[] {
       alt,
       "assetRef": asset._ref,

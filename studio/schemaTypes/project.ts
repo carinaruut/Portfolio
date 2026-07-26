@@ -1,5 +1,37 @@
 import { defineArrayMember, defineField, defineType } from 'sanity';
 
+const isSupportedVideoUrl = (value: string) => {
+  try {
+    const url = new URL(value);
+    if (!['http:', 'https:'].includes(url.protocol)) return false;
+
+    const host = url.hostname.toLowerCase().replace(/^www\./, '');
+    const path = url.pathname.split('/').filter(Boolean);
+
+    if (host === 'youtu.be') {
+      return /^[\w-]{11}$/.test(path[0] ?? '');
+    }
+
+    if (host === 'youtube.com' || host === 'm.youtube.com') {
+      const videoId =
+        url.pathname === '/watch'
+          ? url.searchParams.get('v')
+          : ['embed', 'live', 'shorts'].includes(path[0] ?? '')
+            ? path[1]
+            : undefined;
+      return /^[\w-]{11}$/.test(videoId ?? '');
+    }
+
+    return (
+      host === 'instagram.com' &&
+      ['p', 'reel', 'reels', 'tv'].includes(path[0] ?? '') &&
+      /^[\w-]+$/.test(path[1] ?? '')
+    );
+  } catch {
+    return false;
+  }
+};
+
 export const project = defineType({
   name: 'project',
   title: 'Project',
@@ -71,6 +103,33 @@ export const project = defineType({
           validation: (rule) => rule.required().max(240),
         }),
       ],
+      validation: (rule) =>
+        rule.custom((value, context) => {
+          const parent = context.parent as { videoUrl?: string } | undefined;
+          return value && parent?.videoUrl
+            ? 'Use either an interactive 3D model or a video, not both.'
+            : true;
+        }),
+    }),
+    defineField({
+      name: 'videoUrl',
+      title: 'Video URL',
+      description:
+        'Paste a YouTube video, Short, or Instagram post/reel URL to play it on the project page.',
+      type: 'url',
+      validation: (rule) =>
+        rule.uri({ scheme: ['http', 'https'] }).custom((value, context) => {
+          if (!value) return true;
+
+          const parent = context.parent as { model3d?: unknown } | undefined;
+          if (parent?.model3d) {
+            return 'Use either a video or an interactive 3D model, not both.';
+          }
+
+          return isSupportedVideoUrl(value)
+            ? true
+            : 'Enter a valid YouTube or Instagram video URL.';
+        }),
     }),
     defineField({
       name: 'gallery',

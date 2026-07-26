@@ -1,0 +1,29 @@
+---
+import type { ProjectVideoEmbed } from '../lib/video';
+
+interface Props {
+  video: ProjectVideoEmbed;
+  title: string;
+  class?: string;
+}
+
+const { video, title, class: className } = Astro.props;
+const providerName = video.provider === 'youtube' ? 'YouTube' : 'Instagram';
+---
+
+<div
+  class:list={[
+    'relative overflow-hidden rounded-box bg-base-200',
+    video.provider === 'youtube' ? 'aspect-video' : 'aspect-[9/16]',
+    className,
+  ]}
+>
+  <iframe
+    class="absolute inset-0 h-full w-full border-0"
+    src={video.url}
+    title={`${title} on ${providerName}`}
+    loading="lazy"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allowfullscreen></iframe>
+</div>

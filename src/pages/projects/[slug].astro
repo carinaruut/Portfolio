@@ -3,9 +3,11 @@ import type { GetStaticPaths } from 'astro';
 import ModelViewer from '../../components/ModelViewer.astro';
 import PortfolioImage from '../../components/PortfolioImage.astro';
 import ProjectGrid from '../../components/ProjectGrid.astro';
+import ProjectVideo from '../../components/ProjectVideo.astro';
 import SectionHeading from '../../components/SectionHeading.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getRelatedProjects, getSiteContent } from '../../lib/content';
+import { parseProjectVideoUrl } from '../../lib/video';
 import type { Profile, Project } from '../../types';
 
 export const getStaticPaths = (async () => {
@@ -33,11 +35,14 @@ const pageDescription = (
   project.body.at(0) ??
   `View ${project.title} in ${project.category.title}.`
 ).slice(0, 220);
+const video = parseProjectVideoUrl(project.videoUrl);
 const useSideLayout = Boolean(
-  project.model3d ||
-  (project.mainImage?.width &&
-    project.mainImage.height &&
-    project.mainImage.width <= project.mainImage.height * 1.15),
+  video
+    ? video.provider === 'instagram'
+    : project.model3d ||
+        (project.mainImage?.width &&
+          project.mainImage.height &&
+          project.mainImage.width <= project.mainImage.height * 1.15),
 );
 ---
 
@@ -93,7 +98,16 @@ const useSideLayout = Boolean(
       ]}
     >
       {
-        project.model3d ? (
+        video ? (
+          <ProjectVideo
+            video={video}
+            title={project.title}
+            class:list={[
+              'mx-auto w-full',
+              video.provider === 'instagram' ? 'max-w-[30rem]' : 'max-w-5xl',
+            ]}
+          />
+        ) : project.model3d ? (
           <ModelViewer
             model={project.model3d}
             src={`/models/${project.slug}.glb`}
