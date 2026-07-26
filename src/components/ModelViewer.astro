@@ -5,17 +5,18 @@ import { getImageUrl } from '../lib/images';
 interface Props {
   model: Model3DAsset;
   poster?: ImageAsset;
+  src?: string;
   class?: string;
 }
 
-const { model, poster, class: className } = Astro.props;
+const { model, poster, src = model.url, class: className } = Astro.props;
 const posterUrl = getImageUrl(poster, 1400);
 ---
 
 <div class:list={['w-full', className]}>
   <model-viewer
-    class="h-[clamp(22rem,65vw,42rem)] w-full rounded-box bg-base-200"
-    src={model.url}
+    class="aspect-square h-auto w-full rounded-box bg-base-200"
+    src={src}
     poster={posterUrl}
     alt={model.alt}
     camera-controls
@@ -31,7 +32,7 @@ const posterUrl = getImageUrl(poster, 1400);
     >
       Interactive preview unavailable. <a
         class="link font-semibold text-primary-content dark:text-primary"
-        href={model.url}>Open the GLB file</a
+        href={src}>Open the GLB file</a
       >.
     </p>
   </model-viewer>

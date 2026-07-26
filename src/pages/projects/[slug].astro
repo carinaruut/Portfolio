@@ -34,10 +34,10 @@ const pageDescription = (
   `View ${project.title} in ${project.category.title}.`
 ).slice(0, 220);
 const useSideLayout = Boolean(
-  !project.model3d &&
-  project.mainImage?.width &&
-  project.mainImage.height &&
-  project.mainImage.width <= project.mainImage.height * 1.15,
+  project.model3d ||
+  (project.mainImage?.width &&
+    project.mainImage.height &&
+    project.mainImage.width <= project.mainImage.height * 1.15),
 );
 ---
 
@@ -96,6 +96,7 @@ const useSideLayout = Boolean(
         project.model3d ? (
           <ModelViewer
             model={project.model3d}
+            src={`/models/${project.slug}.glb`}
             poster={project.mainImage}
             class="mx-auto max-w-5xl"
           />
