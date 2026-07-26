@@ -3,6 +3,7 @@ import { toHTML } from '@portabletext/to-html';
 import type { GetStaticPaths } from 'astro';
 import ModelViewer from '../../components/ModelViewer.astro';
 import PortfolioImage from '../../components/PortfolioImage.astro';
+import ProjectGallery from '../../components/ProjectGallery.astro';
 import ProjectGrid from '../../components/ProjectGrid.astro';
 import ProjectVideo from '../../components/ProjectVideo.astro';
 import SectionHeading from '../../components/SectionHeading.astro';
@@ -227,17 +228,10 @@ const useSideLayout = Boolean(
           <div class="content-wrap">
             <>
               <SectionHeading eyebrow="Gallery" title="A closer look" />
-              <div class="grid gap-6 md:grid-cols-2">
-                {project.gallery.map((image) => (
-                  <PortfolioImage
-                    image={image}
-                    width={1200}
-                    height={800}
-                    fit="contain"
-                    class="w-full max-w-xl self-start justify-self-center rounded-box bg-base-100"
-                  />
-                ))}
-              </div>
+              <ProjectGallery
+                images={project.gallery}
+                projectTitle={project.title}
+              />
             </>
           </div>
         </section>
