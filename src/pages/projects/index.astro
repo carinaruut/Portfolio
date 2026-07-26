@@ -29,7 +29,7 @@ const { profile, projects, categories } = await getSiteContent();
       </p>
     </div>
   </header>
-  <section class="content-wrap py-16 sm:py-24">
+  <section id="categories" class="content-wrap scroll-mt-20 py-16 sm:py-24">
     <SectionHeading
       title="Browse by category"
       description="Use these links to view lightweight, statically generated category pages."
@@ -48,7 +48,7 @@ const { profile, projects, categories } = await getSiteContent();
       }
     </div>
   </section>
-  <section class="content-wrap pb-20 sm:pb-28">
+  <section id="all-projects" class="content-wrap scroll-mt-20 pb-20 sm:pb-28">
     <SectionHeading title="All projects" />
     <ProjectGrid projects={projects} columns={4} />
   </section>

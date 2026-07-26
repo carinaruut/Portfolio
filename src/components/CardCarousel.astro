@@ -1,0 +1,217 @@
+---
+interface Props {
+  label: string;
+}
+
+const { label } = Astro.props;
+---
+
+<card-carousel class="relative block" data-label={label}>
+  <div
+    class="carousel-viewport overflow-x-auto overscroll-x-contain"
+    data-carousel-viewport
+    role="region"
+    aria-label={label}
+    tabindex="0"
+  >
+    <div class="carousel-track flex gap-5" data-carousel-track>
+      <slot />
+    </div>
+  </div>
+
+  <button
+    class="btn btn-circle btn-sm absolute top-1/2 left-2 z-10 -translate-y-1/2 border-base-300 bg-base-100/90 shadow-sm backdrop-blur-sm sm:-left-4"
+    type="button"
+    data-carousel-previous
+    aria-label={`Show previous ${label.toLowerCase()}`}
+  >
+    <svg
+      aria-hidden="true"
+      class="size-4"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="m15 18-6-6 6-6"></path>
+    </svg>
+  </button>
+
+  <button
+    class="btn btn-circle btn-sm absolute top-1/2 right-2 z-10 -translate-y-1/2 border-base-300 bg-base-100/90 shadow-sm backdrop-blur-sm sm:-right-4"
+    type="button"
+    data-carousel-next
+    aria-label={`Show next ${label.toLowerCase()}`}
+  >
+    <svg
+      aria-hidden="true"
+      class="size-4"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="m9 18 6-6-6-6"></path>
+    </svg>
+  </button>
+</card-carousel>
+
+<script>
+  class CardCarousel extends HTMLElement {
+    private viewport: HTMLElement;
+    private track: HTMLElement;
+    private originals: HTMLElement[] = [];
+    private setWidth = 0;
+    private scrollTimer?: number;
+    private resizeObserver: ResizeObserver;
+
+    constructor() {
+      super();
+
+      this.viewport = this.querySelector('[data-carousel-viewport]')!;
+      this.track = this.querySelector('[data-carousel-track]')!;
+      this.resizeObserver = new ResizeObserver(() => this.rebuild());
+
+      this.querySelector('[data-carousel-previous]')?.addEventListener(
+        'click',
+        () => this.move(-1),
+      );
+      this.querySelector('[data-carousel-next]')?.addEventListener(
+        'click',
+        () => this.move(1),
+      );
+      this.viewport.addEventListener('scroll', () => {
+        window.clearTimeout(this.scrollTimer);
+        this.scrollTimer = window.setTimeout(
+          () => this.normalizeScrollPosition(),
+          120,
+        );
+      });
+    }
+
+    connectedCallback() {
+      this.originals = Array.from(this.track.children) as HTMLElement[];
+
+      if (this.originals.length < 2) {
+        this.querySelectorAll('button').forEach((button) => {
+          button.hidden = true;
+        });
+        return;
+      }
+
+      this.rebuild();
+      this.resizeObserver.observe(this.viewport);
+    }
+
+    disconnectedCallback() {
+      this.resizeObserver.disconnect();
+      window.clearTimeout(this.scrollTimer);
+    }
+
+    private cloneItems(items: HTMLElement[]) {
+      return items.map((item) => {
+        const clone = item.cloneNode(true) as HTMLElement;
+        clone.dataset.carouselClone = '';
+        clone.setAttribute('aria-hidden', 'true');
+        clone
+          .querySelectorAll<HTMLElement>('a, button, input, select, textarea')
+          .forEach((element) => element.setAttribute('tabindex', '-1'));
+        return clone;
+      });
+    }
+
+    private rebuild() {
+      const firstOriginal = this.originals[0];
+      if (!firstOriginal || this.originals.length < 2) return;
+
+      const previousProgress = this.setWidth
+        ? (this.viewport.scrollLeft - firstOriginal.offsetLeft) / this.setWidth
+        : 0;
+
+      this.track
+        .querySelectorAll('[data-carousel-clone]')
+        .forEach((clone) => clone.remove());
+
+      const before = this.cloneItems(this.originals);
+      const after = this.cloneItems(this.originals);
+      const firstAfter = after[0];
+      if (!firstAfter) return;
+
+      this.track.prepend(...before);
+      this.track.append(...after);
+
+      this.setWidth = firstAfter.offsetLeft - firstOriginal.offsetLeft;
+      this.viewport.scrollTo({
+        left: firstOriginal.offsetLeft + previousProgress * this.setWidth,
+        behavior: 'instant',
+      });
+    }
+
+    private move(direction: -1 | 1) {
+      const firstOriginal = this.originals[0];
+      if (!firstOriginal) return;
+
+      const gap =
+        Number.parseFloat(getComputedStyle(this.track).columnGap) || 0;
+      this.viewport.scrollBy({
+        left: direction * (firstOriginal.offsetWidth + gap),
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+          ? 'instant'
+          : 'smooth',
+      });
+    }
+
+    private normalizeScrollPosition() {
+      const firstOriginal = this.originals[0];
+      if (!firstOriginal || !this.setWidth) return;
+
+      const start = firstOriginal.offsetLeft;
+      const distance = this.viewport.scrollLeft - start;
+
+      if (distance < -this.setWidth / 2) {
+        this.viewport.scrollBy({ left: this.setWidth, behavior: 'instant' });
+      } else if (distance > this.setWidth / 2) {
+        this.viewport.scrollBy({ left: -this.setWidth, behavior: 'instant' });
+      }
+    }
+  }
+
+  if (!customElements.get('card-carousel')) {
+    customElements.define('card-carousel', CardCarousel);
+  }
+</script>
+
+<style>
+  .carousel-viewport {
+    scrollbar-width: none;
+  }
+
+  .carousel-viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  .carousel-viewport {
+    scroll-snap-type: x mandatory;
+  }
+
+  .carousel-track > :global(*) {
+    min-width: 100%;
+    scroll-snap-align: start;
+  }
+
+  @media (min-width: 48rem) {
+    .carousel-track > :global(*) {
+      min-width: calc((100% - 1.25rem) / 2);
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .carousel-track > :global(*) {
+      min-width: calc((100% - 2.5rem) / 3);
+    }
+  }
+</style>
