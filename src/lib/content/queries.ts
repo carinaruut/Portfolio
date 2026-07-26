@@ -5,7 +5,7 @@ export const siteContentQuery = `{
     "slug": slug.current,
     publishedAt,
     shortDescription,
-    "body": coalesce(body[].children[].text, []),
+    "body": coalesce(body, []),
     mainImage {
       alt,
       "assetRef": asset._ref,

@@ -104,7 +104,55 @@
     @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
   }
 
-  .prose-copy p + p {
+  .prose-copy > * + * {
     @apply mt-5;
+  }
+
+  .prose-copy h1,
+  .prose-copy h2,
+  .prose-copy h3,
+  .prose-copy h4,
+  .prose-copy h5,
+  .prose-copy h6 {
+    @apply font-bold tracking-tight text-base-content;
+  }
+
+  .prose-copy h1 {
+    @apply text-3xl;
+  }
+
+  .prose-copy h2 {
+    @apply text-2xl;
+  }
+
+  .prose-copy h3,
+  .prose-copy h4,
+  .prose-copy h5,
+  .prose-copy h6 {
+    @apply text-xl;
+  }
+
+  .prose-copy ul {
+    @apply list-disc space-y-2 pl-6;
+  }
+
+  .prose-copy ol {
+    @apply list-decimal space-y-2 pl-6;
+  }
+
+  .prose-copy blockquote {
+    @apply border-l-4 border-primary/40 pl-5 italic;
+  }
+
+  .prose-copy strong {
+    @apply font-bold text-base-content;
+  }
+
+  .prose-copy a {
+    @apply font-semibold text-primary-content underline decoration-current/40 underline-offset-4 dark:text-primary;
+  }
+
+  .prose-copy code {
+    @apply rounded bg-base-200 px-1.5 py-0.5 font-mono text-[0.9em] text-base-content;
   }
 }

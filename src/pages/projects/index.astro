@@ -50,6 +50,6 @@ const { profile, projects, categories } = await getSiteContent();
   </section>
   <section class="content-wrap pb-20 sm:pb-28">
     <SectionHeading title="All projects" />
-    <ProjectGrid projects={projects} />
+    <ProjectGrid projects={projects} columns={4} />
   </section>
 </BaseLayout>

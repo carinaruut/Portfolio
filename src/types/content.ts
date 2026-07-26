@@ -1,3 +1,5 @@
+import type { PortableTextBlock } from '@portabletext/types';
+
 export interface ImageAsset {
   url?: string;
   assetRef?: string;
@@ -34,7 +36,7 @@ export interface ProjectSummary {
 }
 
 export interface Project extends ProjectSummary {
-  body: string[];
+  body: PortableTextBlock[];
   gallery: ImageAsset[];
   model3d?: Model3DAsset;
   videoUrl?: string;

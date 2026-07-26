@@ -5,13 +5,19 @@ import ProjectCard from './ProjectCard.astro';
 
 interface Props {
   projects: ProjectSummary[];
+  columns?: 2 | 4;
 }
-const { projects } = Astro.props;
+const { projects, columns = 2 } = Astro.props;
 ---
 
 {
   projects.length > 0 ? (
-    <div class="grid gap-7 md:grid-cols-2">
+    <div
+      class:list={[
+        'grid gap-7 md:grid-cols-2',
+        columns === 4 && 'lg:grid-cols-4',
+      ]}
+    >
       {projects.map((project) => (
         <ProjectCard project={project} />
       ))}

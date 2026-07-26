@@ -1,4 +1,5 @@
 ---
+import { toHTML } from '@portabletext/to-html';
 import type { GetStaticPaths } from 'astro';
 import ModelViewer from '../../components/ModelViewer.astro';
 import PortfolioImage from '../../components/PortfolioImage.astro';
@@ -30,11 +31,18 @@ interface Props {
   profile: Profile;
 }
 const { project, relatedProjects, profile } = Astro.props;
+const bodyText = project.body
+  .flatMap((block) => block.children)
+  .map((child) =>
+    'text' in child && typeof child.text === 'string' ? child.text : '',
+  )
+  .filter(Boolean)
+  .join(' ');
 const pageDescription = (
   project.shortDescription ??
-  project.body.at(0) ??
-  `View ${project.title} in ${project.category.title}.`
+  (bodyText || `View ${project.title} in ${project.category.title}.`)
 ).slice(0, 220);
+const bodyHtml = toHTML(project.body);
 const video = parseProjectVideoUrl(project.videoUrl);
 const useSideLayout = Boolean(
   video
@@ -202,11 +210,10 @@ const useSideLayout = Boolean(
                 <h2 class="text-3xl font-bold tracking-tight">
                   About the project
                 </h2>
-                <div class="prose-copy mt-6 text-lg leading-relaxed text-base-content/75">
-                  {project.body.map((paragraph) => (
-                    <p>{paragraph}</p>
-                  ))}
-                </div>
+                <div
+                  class="prose-copy mt-6 text-lg leading-relaxed text-base-content/75"
+                  set:html={bodyHtml}
+                />
               </div>
             )
           }

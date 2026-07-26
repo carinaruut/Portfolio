@@ -49,9 +49,17 @@ const { project } = Astro.props;
     {
       project.technologies.length > 0 && (
         <ul class="mt-1 flex flex-wrap gap-2" aria-label="Project tags">
-          {project.technologies.map((technology) => (
+          {project.technologies.slice(0, 5).map((technology) => (
             <li class="badge badge-soft">{technology}</li>
           ))}
+          {project.technologies.length > 5 && (
+            <li
+              class="badge badge-soft"
+              aria-label={`${project.technologies.length - 5} more tags`}
+            >
+              ...
+            </li>
+          )}
         </ul>
       )
     }
