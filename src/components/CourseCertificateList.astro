@@ -1,0 +1,93 @@
+---
+import type { CourseCertificate } from '../types';
+import { formatMonthYear } from '../lib/format';
+
+interface Props {
+  items: CourseCertificate[];
+  limit?: number;
+  compact?: boolean;
+}
+
+const { items, limit, compact = false } = Astro.props;
+const visibleItems = limit ? items.slice(0, limit) : items;
+---
+
+<div class="grid gap-4">
+  {
+    visibleItems.map((item) => (
+      <article class="card border border-base-300 bg-base-100">
+        <div class="card-body">
+          <div class="flex flex-col justify-between gap-2 sm:flex-row sm:items-start">
+            <div>
+              <div class="mb-2 badge badge-secondary badge-outline capitalize">
+                {item.kind}
+              </div>
+              <h3 class="card-title">{item.title}</h3>
+              <p class="font-semibold text-primary-content dark:text-primary">
+                {item.provider}
+              </p>
+            </div>
+            <time
+              class="shrink-0 text-sm text-base-content/60"
+              datetime={item.completedAt}
+            >
+              {formatMonthYear(item.completedAt)}
+            </time>
+          </div>
+
+          {!compact && (
+            <p class="mt-2 text-base-content/70">{item.description}</p>
+          )}
+
+          {item.skills.length > 0 && (
+            <ul class="mt-3 flex flex-wrap gap-2" aria-label="Skills">
+              {item.skills.map((skill) => (
+                <li class="badge badge-soft">{skill}</li>
+              ))}
+            </ul>
+          )}
+
+          {!compact &&
+            (item.credentialId || item.credentialUrl || item.pdfUrl) && (
+              <div class="mt-4 border-t border-base-300 pt-4 text-sm">
+                {item.credentialId && (
+                  <p class="text-base-content/70">
+                    Credential ID:{' '}
+                    <span class="font-medium">{item.credentialId}</span>
+                  </p>
+                )}
+                {item.credentialUrl && (
+                  <a
+                    class="link mt-2 inline-block font-semibold text-primary-content dark:text-primary"
+                    href={item.credentialUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    View credential
+                  </a>
+                )}
+                {item.pdfUrl && (
+                  <a
+                    class="link mt-2 block font-semibold text-primary-content dark:text-primary"
+                    href={item.pdfUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    View PDF{item.pdfFileName ? ` · ${item.pdfFileName}` : ''}
+                  </a>
+                )}
+              </div>
+            )}
+        </div>
+      </article>
+    ))
+  }
+</div>
+
+{
+  compact && visibleItems.length > 0 && (
+    <a class="btn btn-accent btn-sm mt-6" href="/about#courses-certificates">
+      See courses and certificates
+    </a>
+  )
+}

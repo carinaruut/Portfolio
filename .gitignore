@@ -4,6 +4,9 @@ dist/
 .env
 studio/dist/
 studio/.sanity/
-assets/processed/
+# Original artwork, watermark files, and generated portfolio images stay local.
+assets/
+# Portfolio content is managed in Sanity.
+src/data/
 .DS_Store
 *.log

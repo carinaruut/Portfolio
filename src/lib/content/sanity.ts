@@ -21,7 +21,7 @@ export async function getSanityContent(
 
   if (!content.profile) {
     throw new Error(
-      'Sanity is connected, but no profile document was found. Create the profile in Studio or enable mock data.',
+      'Sanity is connected, but no profile document was found. Create the profile in Studio.',
     );
   }
 
