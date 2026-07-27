@@ -1,6 +1,7 @@
 ---
 import type { WorkExperience } from '../types';
 import { formatMonthYear } from '../lib/format';
+import { withBase } from '../lib/paths';
 
 interface Props {
   items: WorkExperience[];
@@ -101,7 +102,7 @@ const visibleItems = limit ? items.slice(0, limit) : items;
 </ol>
 {
   compact && (
-    <a class="btn btn-accent btn-sm mt-6" href="/about#experience">
+    <a class="btn btn-accent btn-sm mt-6" href={withBase('/about#experience')}>
       Read more about my experience
     </a>
   )

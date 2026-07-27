@@ -1,5 +1,6 @@
 ---
 import type { ProjectCategory } from '../types';
+import { withBase } from '../lib/paths';
 import PortfolioImage from './PortfolioImage.astro';
 
 interface Props {
@@ -10,7 +11,7 @@ const { category, count } = Astro.props;
 ---
 
 <a
-  href={`/projects/category/${category.slug}`}
+  href={withBase(`/projects/category/${category.slug}`)}
   class="card border border-base-300 bg-base-100 transition-colors hover:border-primary focus-visible:border-primary"
 >
   <PortfolioImage

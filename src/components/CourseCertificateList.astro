@@ -1,6 +1,7 @@
 ---
 import type { CourseCertificate } from '../types';
 import { formatMonthYear } from '../lib/format';
+import { withBase } from '../lib/paths';
 
 interface Props {
   items: CourseCertificate[];
@@ -86,7 +87,10 @@ const visibleItems = limit ? items.slice(0, limit) : items;
 
 {
   compact && visibleItems.length > 0 && (
-    <a class="btn btn-accent btn-sm mt-6" href="/about#courses-certificates">
+    <a
+      class="btn btn-accent btn-sm mt-6"
+      href={withBase('/about#courses-certificates')}
+    >
       See courses and certificates
     </a>
   )

@@ -3,6 +3,7 @@ import type { GetStaticPaths } from 'astro';
 import ProjectGrid from '../../../components/ProjectGrid.astro';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { getProjectsByCategory, getSiteContent } from '../../../lib/content';
+import { withBase } from '../../../lib/paths';
 import type { Profile, Project, ProjectCategory } from '../../../types';
 
 export const getStaticPaths = (async () => {
@@ -39,8 +40,8 @@ const { category, projects, profile } = Astro.props;
         aria-label="Breadcrumb"
       >
         <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/projects">Projects</a></li>
+          <li><a href={withBase('/')}>Home</a></li>
+          <li><a href={withBase('/projects')}>Projects</a></li>
           <li aria-current="page">{category.title}</li>
         </ul>
       </nav>

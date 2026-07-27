@@ -1,5 +1,6 @@
 ---
 import type { Profile } from '../types';
+import { withBase } from '../lib/paths';
 import ContactForm from './ContactForm.astro';
 
 interface Props {
@@ -24,8 +25,8 @@ const { profile } = Astro.props;
     <nav aria-labelledby="footer-explore">
       <h2 id="footer-explore" class="footer-title">Explore</h2>
       <div class="flex flex-wrap gap-x-5 gap-y-2 lg:flex-col lg:gap-2">
-        <a class="link link-hover" href="/projects">Projects</a>
-        <a class="link link-hover" href="/about">About</a>
+        <a class="link link-hover" href={withBase('/projects')}>Projects</a>
+        <a class="link link-hover" href={withBase('/about')}>About</a>
         <a class="link link-hover" href={`mailto:${profile.email}`}>Email</a>
       </div>
     </nav>

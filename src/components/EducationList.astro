@@ -1,6 +1,7 @@
 ---
 import type { Education } from '../types';
 import { formatMonthYear } from '../lib/format';
+import { withBase } from '../lib/paths';
 
 interface Props {
   items: Education[];
@@ -140,7 +141,7 @@ const isCertificationSection = (title: string) =>
 </div>
 {
   compact && (
-    <a class="btn btn-accent btn-sm mt-6" href="/about#education">
+    <a class="btn btn-accent btn-sm mt-6" href={withBase('/about#education')}>
       Read more about my education
     </a>
   )

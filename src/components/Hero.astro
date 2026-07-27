@@ -1,5 +1,6 @@
 ---
 import type { Profile } from '../types';
+import { withBase } from '../lib/paths';
 
 interface Props {
   profile: Profile;
@@ -26,8 +27,9 @@ const { profile } = Astro.props;
         {profile.shortIntroduction}
       </p>
       <div class="mt-9 flex flex-wrap gap-3">
-        <a class="btn btn-primary" href="/projects">View projects</a>
-        <a class="btn btn-outline" href="/about">About me</a>
+        <a class="btn btn-primary" href={withBase('/projects')}>View projects</a
+        >
+        <a class="btn btn-outline" href={withBase('/about')}>About me</a>
       </div>
     </div>
   </div>

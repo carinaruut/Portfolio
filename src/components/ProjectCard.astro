@@ -1,6 +1,7 @@
 ---
 import type { ProjectSummary } from '../types';
 import { formatYear } from '../lib/format';
+import { withBase } from '../lib/paths';
 import PortfolioImage from './PortfolioImage.astro';
 
 interface Props {
@@ -10,7 +11,7 @@ const { project } = Astro.props;
 ---
 
 <a
-  href={`/projects/${project.slug}`}
+  href={withBase(`/projects/${project.slug}`)}
   class="card group overflow-hidden border border-base-300 bg-base-100 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-lg focus-visible:-translate-y-1 focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none"
   aria-label={`View ${project.title}`}
 >

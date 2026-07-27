@@ -10,6 +10,7 @@ import ProjectCard from '../components/ProjectCard.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getSiteContent } from '../lib/content';
+import { withBase } from '../lib/paths';
 
 const {
   profile,
@@ -44,7 +45,10 @@ const featuredProjects = projects.filter((project) => project.featured);
             </div>
           ))}
         </CardCarousel>
-        <a class="btn btn-accent mt-9" href="/projects#all-projects">
+        <a
+          class="btn btn-accent mt-9"
+          href={withBase('/projects#all-projects')}
+        >
           Show all projects
         </a>
       </section>
@@ -70,7 +74,7 @@ const featuredProjects = projects.filter((project) => project.featured);
           ))
         }
       </CardCarousel>
-      <a class="btn btn-accent mt-9" href="/projects#categories">
+      <a class="btn btn-accent mt-9" href={withBase('/projects#categories')}>
         Show all categories
       </a>
     </div>
@@ -113,7 +117,9 @@ const featuredProjects = projects.filter((project) => project.featured);
         <p class="mt-5 text-lg leading-relaxed text-neutral-content/75">
           {profile.biography[0]}
         </p>
-        <a class="btn btn-primary mt-7" href="/about">More about me</a>
+        <a class="btn btn-primary mt-7" href={withBase('/about')}>
+          More about me
+        </a>
       </div>
     </div>
   </section>

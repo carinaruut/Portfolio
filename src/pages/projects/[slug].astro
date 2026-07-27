@@ -9,6 +9,7 @@ import ProjectVideo from '../../components/ProjectVideo.astro';
 import SectionHeading from '../../components/SectionHeading.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getRelatedProjects, getSiteContent } from '../../lib/content';
+import { withBase } from '../../lib/paths';
 import { parseProjectVideoUrl } from '../../lib/video';
 import type { Profile, Project } from '../../types';
 
@@ -69,10 +70,10 @@ const useSideLayout = Boolean(
           aria-label="Breadcrumb"
         >
           <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/projects">Projects</a></li>
+            <li><a href={withBase('/')}>Home</a></li>
+            <li><a href={withBase('/projects')}>Projects</a></li>
             <li>
-              <a href={`/projects/category/${project.category.slug}`}>
+              <a href={withBase(`/projects/category/${project.category.slug}`)}>
                 {project.category.title}
               </a>
             </li>
@@ -119,7 +120,7 @@ const useSideLayout = Boolean(
         ) : project.model3d ? (
           <ModelViewer
             model={project.model3d}
-            src={`/models/${project.slug}.glb`}
+            src={withBase(`/models/${project.slug}.glb`)}
             poster={project.mainImage}
             class="mx-auto max-w-5xl"
           />
