@@ -16,6 +16,8 @@ concurrency:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
@@ -43,9 +45,9 @@ jobs:
       - name: Build site
         run: pnpm build
         env:
-          PUBLIC_SANITY_PROJECT_ID: ${{ vars.PUBLIC_SANITY_PROJECT_ID }}
-          PUBLIC_SANITY_DATASET: ${{ vars.PUBLIC_SANITY_DATASET }}
-          PUBLIC_SANITY_API_VERSION: ${{ vars.PUBLIC_SANITY_API_VERSION }}
+          PUBLIC_SANITY_PROJECT_ID: ${{ secrets.PUBLIC_SANITY_PROJECT_ID }}
+          PUBLIC_SANITY_DATASET: ${{ secrets.PUBLIC_SANITY_DATASET }}
+          PUBLIC_SANITY_API_VERSION: ${{ secrets.PUBLIC_SANITY_API_VERSION }}
 
       - name: Upload GitHub Pages artifact
         if: github.ref == 'refs/heads/main'
