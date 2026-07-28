@@ -1,9 +1,7 @@
 @import 'tailwindcss';
 
 @plugin 'daisyui' {
-  themes:
-    customTheme --default,
-    customDark --prefersdark;
+  themes: customTheme --default;
 }
 
 @plugin 'daisyui/theme' {
@@ -40,43 +38,6 @@
   --depth: 1;
   --noise: 0;
 }
-
-@plugin 'daisyui/theme' {
-  name: 'customDark';
-  default: false;
-  prefersdark: true;
-  color-scheme: 'dark';
-  --color-base-100: #141c31;
-  --color-base-200: #1b2540;
-  --color-base-300: #243050;
-  --color-base-content: #eef3ff;
-  --color-primary: #feccd2;
-  --color-primary-content: #5b1038;
-  --color-secondary: #96f7e4;
-  --color-secondary-content: #003b39;
-  --color-accent: #ffd6a7;
-  --color-accent-content: #5c2200;
-  --color-neutral: #0d1529;
-  --color-neutral-content: #e4e4e7;
-  --color-info: #59c2ff;
-  --color-info-content: #06263b;
-  --color-success: #3dd7a0;
-  --color-success-content: #03261d;
-  --color-warning: #f7c84b;
-  --color-warning-content: #432100;
-  --color-error: #ff5c84;
-  --color-error-content: #4d0218;
-  --radius-selector: 2rem;
-  --radius-field: 1rem;
-  --radius-box: 1rem;
-  --size-selector: 0.25rem;
-  --size-field: 0.25rem;
-  --border: 2px;
-  --depth: 1;
-  --noise: 0;
-}
-
-@custom-variant dark (&:where([data-theme='customDark'], [data-theme='customDark'] *));
 
 @theme {
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
@@ -149,7 +110,7 @@
   }
 
   .prose-copy a {
-    @apply font-semibold text-primary-content underline decoration-current/40 underline-offset-4 dark:text-primary;
+    @apply font-semibold text-primary-content underline decoration-current/40 underline-offset-4;
   }
 
   .prose-copy code {

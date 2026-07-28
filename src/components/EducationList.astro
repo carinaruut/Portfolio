@@ -34,7 +34,7 @@ const isCertificationSection = (title: string) =>
                 {item.qualification}
                 {item.field && ` · ${item.field}`}
               </h3>
-              <p class="font-semibold text-primary-content dark:text-primary">
+              <p class="font-semibold text-primary-content">
                 {item.institutionUrl ? (
                   <a
                     class="link-hover"
@@ -104,7 +104,7 @@ const isCertificationSection = (title: string) =>
                 (section) => !isCertificationSection(section.title),
               ) && (
                 <details class="collapse-arrow collapse mt-2 rounded-none border-t border-base-300">
-                  <summary class="collapse-title min-h-0 py-4 pr-10 pl-0 font-semibold text-primary-content dark:text-primary">
+                  <summary class="collapse-title min-h-0 py-4 pr-10 pl-0 font-semibold text-primary-content">
                     View additional details
                   </summary>
                   <div class="collapse-content px-0 pb-0">

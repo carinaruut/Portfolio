@@ -1,5 +1,4 @@
 ---
-import ThemeSwitcher from './ThemeSwitcher.astro';
 import { withBase } from '../lib/paths';
 
 const currentPath = Astro.url.pathname;
@@ -38,7 +37,6 @@ const links = [
       </ul>
     </div>
     <div class="navbar-end gap-1">
-      <ThemeSwitcher />
       <div class="dropdown dropdown-end md:hidden">
         <button
           type="button"
