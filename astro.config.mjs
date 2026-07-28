@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 
 export default defineConfig({
   site: 'https://carinaruut.github.io',
-  base: '/Portfolio',
+  base: '/portfolio',
   output: 'static',
   vite: {
     plugins: [tailwindcss()],
