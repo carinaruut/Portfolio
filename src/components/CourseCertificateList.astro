@@ -24,9 +24,7 @@ const visibleItems = limit ? items.slice(0, limit) : items;
                 {item.kind}
               </div>
               <h3 class="card-title">{item.title}</h3>
-              <p class="font-semibold text-primary-content dark:text-primary">
-                {item.provider}
-              </p>
+              <p class="font-semibold text-primary-content">{item.provider}</p>
             </div>
             <time
               class="shrink-0 text-sm text-base-content/60"
@@ -59,7 +57,7 @@ const visibleItems = limit ? items.slice(0, limit) : items;
                 )}
                 {item.credentialUrl && (
                   <a
-                    class="link mt-2 inline-block font-semibold text-primary-content dark:text-primary"
+                    class="link mt-2 inline-block font-semibold text-primary-content"
                     href={item.credentialUrl}
                     target="_blank"
                     rel="noreferrer"
@@ -69,7 +67,7 @@ const visibleItems = limit ? items.slice(0, limit) : items;
                 )}
                 {item.pdfUrl && (
                   <a
-                    class="link mt-2 block font-semibold text-primary-content dark:text-primary"
+                    class="link mt-2 block font-semibold text-primary-content"
                     href={item.pdfUrl}
                     target="_blank"
                     rel="noreferrer"
