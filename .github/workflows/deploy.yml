@@ -2,10 +2,7 @@ name: Validate and deploy
 
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-    types: [opened]
+    branches: [main, dev]
 
 permissions:
   contents: read
