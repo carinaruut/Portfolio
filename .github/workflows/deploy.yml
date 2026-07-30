@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: pages-${{ github.ref }}
+  group: ${{ (github.ref == 'refs/heads/main' || github.event_name == 'repository_dispatch') && 'pages-production' || format('pages-{0}', github.ref) }}
   cancel-in-progress: true
 
 jobs:
