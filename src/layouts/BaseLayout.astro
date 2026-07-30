@@ -55,4 +55,31 @@ const fullTitle = title === profile.name ? title : `${title} | ${profile.name}`;
     <main id="main-content"><slot /></main>
     <Footer profile={profile} />
   </body>
+
+  <script>
+    const revealItems = document.querySelectorAll<HTMLElement>(
+      '[data-scroll-reveal]',
+    );
+    const reduceMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches;
+
+    if (!reduceMotion && 'IntersectionObserver' in window) {
+      document.documentElement.classList.add('scroll-reveal-ready');
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+
+            entry.target.classList.add('scroll-reveal-visible');
+            observer.unobserve(entry.target);
+          });
+        },
+        { rootMargin: '0px 0px 8% 0px', threshold: 0.08 },
+      );
+
+      revealItems.forEach((item) => observer.observe(item));
+    }
+  </script>
 </html>

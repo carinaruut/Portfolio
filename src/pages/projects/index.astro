@@ -14,7 +14,7 @@ const { profile, projects, categories } = await getSiteContent();
   profile={profile}
 >
   <header class="border-b border-base-300 bg-base-200">
-    <div class="content-wrap py-10 sm:py-10">
+    <div class="content-wrap py-10 sm:py-10" data-scroll-reveal>
       <p
         class="text-sm font-bold tracking-[0.18em] text-primary-content uppercase"
       >
@@ -29,7 +29,11 @@ const { profile, projects, categories } = await getSiteContent();
       </p>
     </div>
   </header>
-  <section id="categories" class="content-wrap scroll-mt-20 py-16 sm:py-24">
+  <section
+    id="categories"
+    class="content-wrap scroll-mt-20 py-16 sm:py-24"
+    data-scroll-reveal
+  >
     <SectionHeading
       title="Browse by category"
       description="Use these links to view lightweight, statically generated category pages."
@@ -50,6 +54,6 @@ const { profile, projects, categories } = await getSiteContent();
   </section>
   <section id="all-projects" class="content-wrap scroll-mt-20 pb-20 sm:pb-28">
     <SectionHeading title="All projects" />
-    <ProjectGrid projects={projects} columns={4} />
+    <ProjectGrid projects={projects} columns={4} revealCards />
   </section>
 </BaseLayout>

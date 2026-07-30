@@ -34,7 +34,7 @@ const { category, projects, profile } = Astro.props;
   profile={profile}
 >
   <header class="border-b border-base-300 bg-base-200">
-    <div class="content-wrap py-10 sm:py-10">
+    <div class="content-wrap py-10 sm:py-10" data-scroll-reveal>
       <nav
         class="breadcrumbs mb-8 text-sm font-medium text-primary-content"
         aria-label="Breadcrumb"
@@ -62,7 +62,7 @@ const { category, projects, profile } = Astro.props;
       </p>
     </div>
   </header>
-  <section class="content-wrap py-16 sm:py-24">
+  <section class="content-wrap py-16 sm:py-24" data-scroll-reveal>
     <ProjectGrid projects={projects} columns={4} />
   </section>
 </BaseLayout>

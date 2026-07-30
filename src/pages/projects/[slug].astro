@@ -64,7 +64,7 @@ const useSideLayout = Boolean(
 >
   <article>
     <header class="border-y border-base-300 bg-base-200">
-      <div class="content-wrap py-10 sm:py-10">
+      <div class="content-wrap py-10 sm:py-10" data-scroll-reveal>
         <nav
           class="breadcrumbs mb-8 text-sm font-medium text-primary-content"
           aria-label="Breadcrumb"
@@ -107,37 +107,39 @@ const useSideLayout = Boolean(
           'lg:grid lg:grid-cols-[minmax(18rem,30rem)_minmax(0,1fr)] lg:items-start lg:gap-16',
       ]}
     >
-      {
-        video ? (
-          <ProjectVideo
-            video={video}
-            title={project.title}
-            class:list={[
-              'mx-auto w-full',
-              video.provider === 'instagram' ? 'max-w-[30rem]' : 'max-w-5xl',
-            ]}
-          />
-        ) : project.model3d ? (
-          <ModelViewer
-            model={project.model3d}
-            src={withBase(`/models/${project.slug}.glb`)}
-            poster={project.mainImage}
-            class="mx-auto max-w-5xl"
-          />
-        ) : (
-          <PortfolioImage
-            image={project.mainImage}
-            width={useSideLayout ? 720 : 1400}
-            height={useSideLayout ? 960 : 900}
-            loading="eager"
-            fit="contain"
-            class:list={[
-              'mx-auto w-full',
-              useSideLayout ? 'max-w-[30rem]' : 'max-w-5xl',
-            ]}
-          />
-        )
-      }
+      <div data-page-enter="left">
+        {
+          video ? (
+            <ProjectVideo
+              video={video}
+              title={project.title}
+              class:list={[
+                'mx-auto w-full',
+                video.provider === 'instagram' ? 'max-w-[30rem]' : 'max-w-5xl',
+              ]}
+            />
+          ) : project.model3d ? (
+            <ModelViewer
+              model={project.model3d}
+              src={withBase(`/models/${project.slug}.glb`)}
+              poster={project.mainImage}
+              class="mx-auto max-w-5xl"
+            />
+          ) : (
+            <PortfolioImage
+              image={project.mainImage}
+              width={useSideLayout ? 720 : 1400}
+              height={useSideLayout ? 960 : 900}
+              loading="eager"
+              fit="contain"
+              class:list={[
+                'mx-auto w-full',
+                useSideLayout ? 'max-w-[30rem]' : 'max-w-5xl',
+              ]}
+            />
+          )
+        }
+      </div>
 
       <section
         class:list={[
@@ -145,6 +147,7 @@ const useSideLayout = Boolean(
             ? 'pt-12 lg:pt-2'
             : 'mx-auto w-full max-w-5xl pt-14 sm:pt-16',
         ]}
+        data-page-enter="right"
       >
         <div
           class:list={[
@@ -226,7 +229,7 @@ const useSideLayout = Boolean(
     {
       project.gallery.length > 0 && (
         <section class="border-y border-base-300 bg-base-200 py-16 sm:py-24">
-          <div class="content-wrap">
+          <div class="content-wrap" data-scroll-reveal>
             <>
               <SectionHeading eyebrow="Gallery" title="A closer look" />
               <ProjectGallery
@@ -242,7 +245,7 @@ const useSideLayout = Boolean(
 
   {
     relatedProjects.length > 0 && (
-      <section class="content-wrap py-20 sm:py-28">
+      <section class="content-wrap py-20 sm:py-28" data-scroll-reveal>
         <>
           <SectionHeading eyebrow="Keep exploring" title="Related projects" />
           <ProjectGrid projects={relatedProjects} />

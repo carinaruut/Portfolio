@@ -6,8 +6,9 @@ import ProjectCard from './ProjectCard.astro';
 interface Props {
   projects: ProjectSummary[];
   columns?: 2 | 4;
+  revealCards?: boolean;
 }
-const { projects, columns = 2 } = Astro.props;
+const { projects, columns = 2, revealCards = false } = Astro.props;
 ---
 
 {
@@ -18,9 +19,19 @@ const { projects, columns = 2 } = Astro.props;
         columns === 4 && 'lg:grid-cols-4',
       ]}
     >
-      {projects.map((project) => (
-        <ProjectCard project={project} />
-      ))}
+      {projects.map((project, index) =>
+        revealCards ? (
+          <div
+            class="[&>*]:h-full"
+            data-scroll-reveal
+            style={`--reveal-delay: ${(index % columns) * 80}ms`}
+          >
+            <ProjectCard project={project} />
+          </div>
+        ) : (
+          <ProjectCard project={project} />
+        ),
+      )}
     </div>
   ) : (
     <EmptyState

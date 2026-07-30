@@ -32,7 +32,7 @@ const featuredProjects = projects.filter((project) => project.featured);
 
   {
     featuredProjects.length > 0 && (
-      <section class="content-wrap py-12 sm:py-28">
+      <section class="content-wrap py-12 sm:py-28" data-scroll-reveal>
         <SectionHeading
           eyebrow="Selected work"
           title="Featured projects"
@@ -56,7 +56,7 @@ const featuredProjects = projects.filter((project) => project.featured);
   }
 
   <section class="border-y border-base-300 bg-base-200 py-12 sm:py-28">
-    <div class="content-wrap">
+    <div class="content-wrap" data-scroll-reveal>
       <SectionHeading eyebrow="Explore" title="Project categories" />
       <CardCarousel label="Project categories">
         {
@@ -81,15 +81,15 @@ const featuredProjects = projects.filter((project) => project.featured);
   </section>
 
   <section class="content-wrap grid gap-16 py-12 sm:py-28 xl:grid-cols-3">
-    <div>
+    <div data-scroll-reveal>
       <SectionHeading eyebrow="Now" title="Latest workplace" />
       <ExperienceList items={workExperiences} limit={1} compact />
     </div>
-    <div>
+    <div data-scroll-reveal style="--reveal-delay: 100ms">
       <SectionHeading eyebrow="Learning" title="Latest education" />
       <EducationList items={education} limit={1} compact />
     </div>
-    <div>
+    <div data-scroll-reveal style="--reveal-delay: 200ms">
       <SectionHeading eyebrow="Growth" title="Latest credential" />
       <CourseCertificateList items={coursesCertificates} limit={1} compact />
     </div>
@@ -99,13 +99,15 @@ const featuredProjects = projects.filter((project) => project.featured);
     <div
       class="content-wrap grid items-center gap-10 py-12 sm:py-28 md:grid-cols-[0.7fr_1.3fr]"
     >
-      <PortfolioImage
-        image={profile.profileImage}
-        width={700}
-        height={700}
-        class="aspect-square w-full rounded-box object-cover"
-      />
-      <div>
+      <div data-scroll-reveal="left">
+        <PortfolioImage
+          image={profile.profileImage}
+          width={700}
+          height={700}
+          class="aspect-square w-full rounded-box object-cover"
+        />
+      </div>
+      <div data-scroll-reveal="right" style="--reveal-delay: 100ms">
         <p
           class="mb-3 text-sm font-bold tracking-[0.18em] text-primary uppercase"
         >
