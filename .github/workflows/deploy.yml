@@ -3,6 +3,8 @@ name: Validate and deploy
 on:
   push:
     branches: [main, dev]
+  repository_dispatch:
+    types: [sanity-content-update]
 
 permissions:
   contents: read
@@ -48,13 +50,13 @@ jobs:
           PUBLIC_SANITY_API_VERSION: ${{ secrets.PUBLIC_SANITY_API_VERSION }}
 
       - name: Upload GitHub Pages artifact
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || github.event_name == 'repository_dispatch'
         uses: actions/upload-pages-artifact@v4
         with:
           path: dist
 
   deploy:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' || github.event_name == 'repository_dispatch'
     needs: validate
     runs-on: ubuntu-latest
     permissions:
