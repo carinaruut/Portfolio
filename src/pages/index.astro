@@ -32,7 +32,7 @@ const featuredProjects = projects.filter((project) => project.featured);
 
   {
     featuredProjects.length > 0 && (
-      <section class="content-wrap py-20 sm:py-28">
+      <section class="content-wrap py-12 sm:py-28">
         <SectionHeading
           eyebrow="Selected work"
           title="Featured projects"
@@ -55,7 +55,7 @@ const featuredProjects = projects.filter((project) => project.featured);
     )
   }
 
-  <section class="border-y border-base-300 bg-base-200 py-20 sm:py-28">
+  <section class="border-y border-base-300 bg-base-200 py-12 sm:py-28">
     <div class="content-wrap">
       <SectionHeading eyebrow="Explore" title="Project categories" />
       <CardCarousel label="Project categories">
@@ -80,7 +80,7 @@ const featuredProjects = projects.filter((project) => project.featured);
     </div>
   </section>
 
-  <section class="content-wrap grid gap-16 py-20 sm:py-28 xl:grid-cols-3">
+  <section class="content-wrap grid gap-16 py-12 sm:py-28 xl:grid-cols-3">
     <div>
       <SectionHeading eyebrow="Now" title="Latest workplace" />
       <ExperienceList items={workExperiences} limit={1} compact />
@@ -97,7 +97,7 @@ const featuredProjects = projects.filter((project) => project.featured);
 
   <section class="border-t border-base-300 bg-neutral text-neutral-content">
     <div
-      class="content-wrap grid items-center gap-10 py-20 sm:py-28 md:grid-cols-[0.7fr_1.3fr]"
+      class="content-wrap grid items-center gap-10 py-12 sm:py-28 md:grid-cols-[0.7fr_1.3fr]"
     >
       <PortfolioImage
         image={profile.profileImage}
